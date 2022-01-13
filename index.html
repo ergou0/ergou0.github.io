@@ -29,7 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 
@@ -604,10 +605,14 @@
                                 题目链接
 思路1这种题目当然要用set啦
 set &lt;int> s;
-        for(auto x:nums)
-        {
-            if(s.count(x)) return x;
-           
+for(auto x:nums)
+{
+    if(s.count(x)) return x;
+    s.insert(x);
+}
+    return -1;
+
+
                             
                         </div>
                         <div class="publish-info">
