@@ -4,7 +4,7 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="剑指 Offer 07. 重建二叉树, 咩">
+    <meta name="keywords" content="剑指 Offer 09. 用两个栈实现队列, 咩">
     <meta name="description" content="来了,坐">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>剑指 Offer 07. 重建二叉树 | 二狗爱学习</title>
+    <title>剑指 Offer 09. 用两个栈实现队列 | 二狗爱学习</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -311,12 +311,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">剑指 Offer 07. 重建二叉树</h1>
+                    <h1 class="description center-align post-title">剑指 Offer 09. 用两个栈实现队列</h1>
                 </div>
             </div>
         </div>
@@ -432,12 +432,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%80%92%E5%BD%92/">
-                                <span class="chip bg-color">递归</span>
+                            <a href="/tags/%E6%A0%88/">
+                                <span class="chip bg-color">栈</span>
                             </a>
                         
-                            <a href="/tags/%E6%A0%91/">
-                                <span class="chip bg-color">树</span>
+                            <a href="/tags/%E9%98%9F%E5%88%97/">
+                                <span class="chip bg-color">队列</span>
                             </a>
                         
                     </div>
@@ -461,28 +461,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-01-15
+                    2022-01-17
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-01-16
+                    2022-01-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    605
+                    219
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    1 分
                 </div>
                 
 
@@ -502,123 +502,54 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/" target="_blank" rel="noopener">题目链接</a></p>
-<p>除了我大家都知道，在一个前序遍历中，遍历顺序为 爹-&gt;左儿子 -&gt; 右儿子</p>
-<p>所以在preorder数组中应该是这样的</p>
-<p><img src="/2022/01/15/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/1.png" alt="preorder数组"></p>
-<p>中序遍历顺序为 左儿子-&gt; 爹 -&gt; 右儿子</p>
-<p>所以inorder数组是这样的</p>
-<p><img src="/2022/01/15/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/2.png" alt="inorder数组"></p>
-<p><strong>preorder[p]==inorder[x]</strong></p>
-<p>那么我们就可以通过不断划分出他的跟节点、左儿子和右儿子来AC啦!</p>
-<p>关于这种代码<br><code>TreeNode* pa=new TreeNode();</code><br><code>pa-&gt;val=preorder[p+1];</code></p>
-<p>按照下面的注释来说应该写成<br><code>TreeNode* pa=new TreeNode(preorder[p+1]);</code><br>这样比较严谨</p>
-<p>但<br>编译器没报错<br>众所周知代码能跑就不要改….</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */</span>
-
-<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+                <p>sb教务崩了，上来水题解</p>
+<p><a href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/" target="_blank" rel="noopener">题目链接</a></p>
+<p>翻了下题目下面的评论发现有很多人吐槽说b不知道 题目想表达什么</p>
+<p>栈是后进先出，队列是先进先出</p>
+<p>怎么让两个后进先出的栈变成一个先进先出的队列</p>
+<p><del>啊觉得好像说了又觉得没说</del></p>
+<p>emmm</p>
+<p>大概就是负负得正的样子</p>
+<p>先把数字装栈1里</p>
+<p>然后再把栈1倒腾到栈2里</p>
+<p>主要是要注意栈为空时不要取数就行了</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">CQueue</span> <span class="token punctuation">{</span>
+    stack<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> s1<span class="token punctuation">,</span>s2<span class="token punctuation">;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
-    map<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span> <span class="token operator">></span> mp<span class="token punctuation">;</span>
-    <span class="token keyword">void</span> <span class="token function">bu</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> preorder<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> inorder<span class="token punctuation">,</span>TreeNode<span class="token operator">*</span> fa<span class="token punctuation">,</span><span class="token keyword">int</span> p<span class="token punctuation">,</span><span class="token keyword">int</span> a<span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">,</span><span class="token keyword">int</span> c<span class="token punctuation">,</span><span class="token keyword">int</span> d<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>b<span class="token operator">&lt;</span>a<span class="token punctuation">)</span>
-        fa<span class="token operator">-</span><span class="token operator">></span>left<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-        <span class="token punctuation">{</span>
-            TreeNode<span class="token operator">*</span> pa<span class="token operator">=</span><span class="token keyword">new</span> <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            pa<span class="token operator">-</span><span class="token operator">></span>val<span class="token operator">=</span>preorder<span class="token punctuation">[</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            
-            fa<span class="token operator">-</span><span class="token operator">></span>left<span class="token operator">=</span>pa<span class="token punctuation">;</span>
-            <span class="token keyword">int</span> x<span class="token operator">=</span>mp<span class="token punctuation">[</span>preorder<span class="token punctuation">[</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token function">bu</span><span class="token punctuation">(</span>preorder<span class="token punctuation">,</span>inorder<span class="token punctuation">,</span>pa<span class="token punctuation">,</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>a<span class="token punctuation">,</span>x<span class="token number">-1</span><span class="token punctuation">,</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>d<span class="token operator">&lt;</span>c<span class="token punctuation">)</span>
-        fa<span class="token operator">-</span><span class="token operator">></span>right<span class="token operator">=</span><span class="token constant">NULL</span><span class="token punctuation">;</span>
-        <span class="token keyword">else</span>
-        <span class="token punctuation">{</span>
-             TreeNode<span class="token operator">*</span> pa<span class="token operator">=</span><span class="token keyword">new</span> <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-             pa<span class="token operator">-</span><span class="token operator">></span>val<span class="token operator">=</span>preorder<span class="token punctuation">[</span>p<span class="token operator">+</span>b<span class="token operator">-</span>a<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-             fa<span class="token operator">-</span><span class="token operator">></span>right<span class="token operator">=</span>pa<span class="token punctuation">;</span>
-             <span class="token keyword">int</span> x<span class="token operator">=</span>mp<span class="token punctuation">[</span>preorder<span class="token punctuation">[</span>p<span class="token operator">+</span>b<span class="token operator">-</span>a<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-             <span class="token function">bu</span><span class="token punctuation">(</span>preorder<span class="token punctuation">,</span>inorder<span class="token punctuation">,</span>pa<span class="token punctuation">,</span>p<span class="token operator">+</span>b<span class="token operator">-</span>a<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">,</span>c<span class="token punctuation">,</span>x<span class="token number">-1</span><span class="token punctuation">,</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>d<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token function">CQueue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s1<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-
-    TreeNode<span class="token operator">*</span> <span class="token function">buildTree</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> preorder<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> inorder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> l<span class="token operator">=</span>preorder<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>l<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        mp<span class="token punctuation">[</span>inorder<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token punctuation">;</span>
-
-
-
-        TreeNode<span class="token operator">*</span> ans<span class="token operator">=</span><span class="token keyword">new</span> <span class="token function">TreeNode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        ans<span class="token operator">-</span><span class="token operator">></span>val<span class="token operator">=</span>preorder<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">int</span> x<span class="token operator">=</span>mp<span class="token punctuation">[</span>preorder<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token function">bu</span><span class="token punctuation">(</span>preorder<span class="token punctuation">,</span>inorder<span class="token punctuation">,</span>ans<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>x<span class="token number">-1</span><span class="token punctuation">,</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>l<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
+    
+    <span class="token keyword">void</span> <span class="token function">appendTail</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        s1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">deleteHead</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s1<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            s2<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>s1<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> ans<span class="token operator">=</span>s2<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        s2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            s1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>s2<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            s2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
         <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>关于知道preorder[p]后怎么求x</strong></p>
-<p><strong>用map建立inorder数组中每一个数和位置的对应关系</strong></p>
-<p>啊上面的代码写的我好难受啊</p>
-<p>首先是左右子树的问题，代码冗余太多</p>
-<p>然后就是每次传参都要传两个数组就很难受</p>
-<p>看了下题解代码</p>
-<p>果然是我写丑了</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
+
+<span class="token comment" spellcheck="true">/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue* obj = new CQueue();
+ * obj->appendTail(value);
+ * int param_2 = obj->deleteHead();
  */</span>
-<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-<span class="token keyword">public</span><span class="token operator">:</span>
-    TreeNode<span class="token operator">*</span> <span class="token function">buildTree</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> preorder<span class="token punctuation">,</span> vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> inorder<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> l<span class="token operator">=</span>preorder<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>l<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-
-        pre<span class="token operator">=</span>preorder<span class="token punctuation">;</span>
-        ino<span class="token operator">=</span>inorder<span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-        mp<span class="token punctuation">[</span>inorder<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token punctuation">;</span>
-
-        <span class="token keyword">return</span> <span class="token function">so</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>l<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//这样就不用每次都传数组了</span>
-    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> pre<span class="token punctuation">;</span>
-    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> ino<span class="token punctuation">;</span>
-    map<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> mp<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//fa为在preorder中下标，l,r为在inorder中下标</span>
-    TreeNode<span class="token operator">*</span> <span class="token function">so</span><span class="token punctuation">(</span><span class="token keyword">int</span> fa<span class="token punctuation">,</span><span class="token keyword">int</span> l<span class="token punctuation">,</span><span class="token keyword">int</span> r<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>l<span class="token operator">></span>r<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-        TreeNode<span class="token operator">*</span> pa<span class="token operator">=</span><span class="token keyword">new</span> <span class="token function">TreeNode</span><span class="token punctuation">(</span>pre<span class="token punctuation">[</span>fa<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">int</span> x<span class="token operator">=</span>mp<span class="token punctuation">[</span>pre<span class="token punctuation">[</span>fa<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        pa<span class="token operator">-</span><span class="token operator">></span>left<span class="token operator">=</span><span class="token function">so</span><span class="token punctuation">(</span>fa<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>l<span class="token punctuation">,</span>x<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        pa<span class="token operator">-</span><span class="token operator">></span>right<span class="token operator">=</span><span class="token function">so</span><span class="token punctuation">(</span>fa<span class="token operator">+</span>x<span class="token operator">-</span>l<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> pa<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -645,7 +576,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ergou0.github.io/2022/01/15/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">http://ergou0.github.io/2022/01/15/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/</a>
+                    <a href="http://ergou0.github.io/2022/01/17/%E5%89%91%E6%8C%87-Offer-09-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">http://ergou0.github.io/2022/01/17/%E5%89%91%E6%8C%87-Offer-09-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -683,12 +614,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%80%92%E5%BD%92/">
-                                    <span class="chip bg-color">递归</span>
+                                <a href="/tags/%E6%A0%88/">
+                                    <span class="chip bg-color">栈</span>
                                 </a>
                             
-                                <a href="/tags/%E6%A0%91/">
-                                    <span class="chip bg-color">树</span>
+                                <a href="/tags/%E9%98%9F%E5%88%97/">
+                                    <span class="chip bg-color">队列</span>
                                 </a>
                             
                         </div>
@@ -736,13 +667,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/01/17/%E5%89%91%E6%8C%87-Offer-09-%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">
+                <a href="/2022/01/17/%E5%89%91%E6%8C%87-Offer-10-I-%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97-II-%E9%9D%92%E8%9B%99%E8%B7%B3%E5%8F%B0%E9%98%B6%E9%97%AE%E9%A2%98/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="剑指 Offer 09. 用两个栈实现队列">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="剑指 Offer 10- I. 斐波那契数列 II. 青蛙跳台阶问题">
                         
-                        <span class="card-title">剑指 Offer 09. 用两个栈实现队列</span>
+                        <span class="card-title">剑指 Offer 10- I. 斐波那契数列 II. 青蛙跳台阶问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -768,18 +699,6 @@
                     </div>
                 </div>
                 
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%A0%88/">
-                        <span class="chip bg-color">栈</span>
-                    </a>
-                    
-                    <a href="/tags/%E9%98%9F%E5%88%97/">
-                        <span class="chip bg-color">队列</span>
-                    </a>
-                    
-                </div>
-                
             </div>
         </div>
         
@@ -789,13 +708,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/01/14/%E7%BC%BA%E6%B0%A7%E4%B8%AD%E7%AE%A1%E9%81%93%E4%BC%98%E5%85%88%E7%BA%A7/">
+                <a href="/2022/01/15/%E5%89%91%E6%8C%87-Offer-07-%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="缺氧中管道优先级">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="剑指 Offer 07. 重建二叉树">
                         
-                        <span class="card-title">缺氧中管道优先级</span>
+                        <span class="card-title">剑指 Offer 07. 重建二叉树</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -806,14 +725,14 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-15
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%B8%B8%E6%88%8F/" class="post-category">
-                                    游戏
+                            <a href="/categories/%E5%89%91%E6%8C%87-Offer/" class="post-category">
+                                    剑指 Offer
                                 </a>
                             
                             
@@ -823,8 +742,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%BC%BA%E6%B0%A7/">
-                        <span class="chip bg-color">缺氧</span>
+                    <a href="/tags/%E9%80%92%E5%BD%92/">
+                        <span class="chip bg-color">递归</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%A0%91/">
+                        <span class="chip bg-color">树</span>
                     </a>
                     
                 </div>
