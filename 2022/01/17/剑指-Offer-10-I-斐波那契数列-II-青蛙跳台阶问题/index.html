@@ -460,21 +460,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-01-17
+                    2022-01-18
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    503
+                    79
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -498,107 +498,105 @@
 <p><a href="https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/" target="_blank" rel="noopener">题目链接-青蛙跳台阶问题</a></p>
 <p>啊典型的递归问题</p>
 <p>但数据太水了直接开数组写模拟比较快乐</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//斐波那契数列</span>
-<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-<span class="token keyword">public</span><span class="token operator">:</span>
-    <span class="token keyword">int</span> mod<span class="token operator">=</span><span class="token number">1e9</span><span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">;</span>
-    <span class="token keyword">long</span> <span class="token keyword">long</span> ans<span class="token punctuation">[</span><span class="token number">105</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">//斐波那契数列
+class Solution {
+public:
+    int mod=1e9+7;
+    long long ans[105]={0};
 
 
-    <span class="token keyword">int</span> <span class="token function">fib</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-       ans<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
-       <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>ans<span class="token punctuation">[</span>i<span class="token number">-2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">%</span><span class="token operator">=</span>mod<span class="token punctuation">;</span>
-       <span class="token keyword">return</span> <span class="token keyword">int</span><span class="token punctuation">(</span>ans<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    int fib(int n) {
+       ans[1]=ans[2]=1;
+       for(int i=3;i<=n;i++)ans[i]=ans[i-1]+ans[i-2],ans[i]%=mod;
+       return int(ans[n]);
+    }
+};
 
-<span class="token comment" spellcheck="true">//青蛙跳台阶问题</span>
-<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-<span class="token keyword">public</span><span class="token operator">:</span>
- <span class="token keyword">int</span> mod<span class="token operator">=</span><span class="token number">1e9</span><span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">;</span>
-    <span class="token keyword">long</span> <span class="token keyword">long</span> ans<span class="token punctuation">[</span><span class="token number">105</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+//青蛙跳台阶问题
+class Solution {
+public:
+ int mod=1e9+7;
+    long long ans[105]={0};
 
 
-    <span class="token keyword">int</span> <span class="token function">numWays</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//注意这两题的初值并不相同</span>
-       ans<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
-       ans<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
-       ans<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
-       <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>ans<span class="token punctuation">[</span>i<span class="token number">-2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">%</span><span class="token operator">=</span>mod<span class="token punctuation">;</span>
-       <span class="token keyword">return</span> <span class="token keyword">int</span><span class="token punctuation">(</span>ans<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">%</span>mod<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    int numWays(int n) {
+        //注意这两题的初值并不相同
+       ans[0]=1;
+       ans[1]=1;
+       ans[2]=2;
+       for(int i=3;i<=n;i++)ans[i]=ans[i-1]+ans[i-2],ans[i]%=mod;
+       return int(ans[n])%mod;
+    }
+};
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="另一种思路"><a href="#另一种思路" class="headerlink" title="另一种思路"></a>另一种思路</h2><p>以斐波那契数列为例</p>
 <p>试想当n很大的时候，求斐波那契数列的第n项mod p</p>
 <p>从1推到n复杂度为O(n)</p>
 <p>令$f_n$为斐波那契数列的第n项</p>
-<p>构造矩阵$F_n= \left{ \begin{matrix} f_n &amp; f_{n+1}\end{matrix} \right}$ ,   $A= \left{ \begin{matrix} 0&amp;&amp;1\1&amp;&amp;1\end{matrix} \right}$</p>
-<p>$F_{n-1}\times A = \left{ \begin{matrix} f_{n-1} &amp; f_n\end{matrix} \right} \times \left{ \begin{matrix} 0&amp;&amp;1\1&amp;&amp;1\end{matrix} \right}$</p>
-<p>​                   $=\left{ \begin{matrix} f_n &amp; f_{n-1}+f_n\end{matrix} \right}$</p>
-<p>​                   $=\left{ \begin{matrix} f_n &amp; f_{n+1}\end{matrix} \right}$</p>
+<p>构造矩阵$F_n= \left\{ \begin{matrix} f_n &amp; f_{n+1}\end{matrix} \right\}$ ,   $A= \left\{ \begin{matrix} 0&amp;&amp;1\\1&amp;&amp;1\end{matrix} \right\}$</p>
+<p>$F_{n-1}\times A = \left\{ \begin{matrix} f_{n-1} &amp; f_n\end{matrix} \right\} \times \left\{ \begin{matrix} 0&amp;&amp;1\\1&amp;&amp;1\end{matrix} \right\}$</p>
+<p>​                   $=\left\{ \begin{matrix} f_n &amp; f_{n-1}+f_n\end{matrix} \right\}$</p>
+<p>​                   $=\left\{ \begin{matrix} f_n &amp; f_{n+1}\end{matrix} \right\}$</p>
 <p>​                   $=F_n$</p>
-<p>$F_0= \left{ \begin{matrix} 0 &amp; 1\end{matrix} \right}$</p>
+<p>$F_0= \left\{ \begin{matrix} 0 &amp; 1\end{matrix} \right\}$</p>
 <p>$F_n=F_0 \times A ^n$</p>
 <p>复杂度大概在O(8lgn)的样子</p>
 <p>POJ好像已经没了</p>
 <p>汗</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/*
+<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">/*
 求斐波拉契数列的第n项
 
 poj 3070
-*/</span>
-<span class="token comment" spellcheck="true">//#include&lt;bits/stdc++.h></span>
-<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;iostream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span><span class="token string">&lt;string.h></span></span>
-<span class="token macro property">#<span class="token directive keyword">define</span> ll long long</span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+*/
+//#include<bits/stdc++.h>
+#include<iostream>
+#include<string.h>
+#define ll long long
+using namespace std;
 
 
-<span class="token keyword">const</span> <span class="token keyword">int</span> N<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> mod<span class="token operator">=</span><span class="token number">1e4</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> n<span class="token punctuation">;</span>
+const int N=2;
+const int mod=1e4;
+int n;
 
-<span class="token comment" spellcheck="true">//矩阵乘法快速幂</span>
-<span class="token keyword">void</span> <span class="token function">mul</span><span class="token punctuation">(</span><span class="token keyword">int</span> c<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> a<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token keyword">int</span> b<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">int</span> tmp<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> k<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>k<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>k<span class="token operator">++</span><span class="token punctuation">)</span>
-    tmp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">(</span>tmp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">+</span><span class="token punctuation">(</span>ll<span class="token punctuation">)</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token operator">*</span>b<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">%</span>mod<span class="token punctuation">)</span><span class="token operator">%</span>mod<span class="token punctuation">;</span>
+//矩阵乘法快速幂
+void mul(int c[][N],int a[][N],int b[][N])
+{
+    int tmp[N][N]={0};
+    for(int i=0;i<N;i++)
+    for(int j=0;j<N;j++)
+    for(int k=0;k<N;k++)
+    tmp[i][j]=(tmp[i][j]+(ll)a[i][k]*b[k][j]%mod)%mod;
 
-     <span class="token function">memcpy</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span>tmp<span class="token punctuation">,</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>tmp<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>cin<span class="token operator">>></span>n<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+     memcpy(c,tmp,sizeof(tmp));
+}
 
 
-        <span class="token keyword">int</span> f0<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-        <span class="token keyword">int</span> a<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span><span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-
-        <span class="token keyword">while</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&amp;</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">mul</span><span class="token punctuation">(</span>f0<span class="token punctuation">,</span>f0<span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token function">mul</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span>a<span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            n<span class="token operator">>>=</span><span class="token number">1</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        cout<span class="token operator">&lt;&lt;</span>f0<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">&lt;&lt;</span><span class="token string">'\n'</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-   <span class="token comment" spellcheck="true">// system("pause");</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+int main()
+{
+    while(cin>>n)
+    {
+        if(n==-1) break;
 
 
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        int f0[N][N]={0,1};
+
+        int a[N][N]={{0,1},{1,1}};
+
+        while(n)
+        {
+            if(n&1) mul(f0,f0,a);
+            mul(a,a,a);
+            n>>=1;
+        }
+        cout<<f0[0][0]<<'\n';
+    }
+
+   // system("pause");
+    return 0;
+}
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -922,6 +920,13 @@ poj 3070
 </main>
 
 
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
 
 
     <footer class="page-footer bg-color">
@@ -993,7 +998,7 @@ poj 3070
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">3.6k</span>&nbsp;字
+                class="white-color">2.1k</span>&nbsp;字
             
             
             
