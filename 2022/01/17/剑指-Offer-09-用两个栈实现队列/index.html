@@ -475,7 +475,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    217
+                    219
                 </div>
                 
 
@@ -513,42 +513,42 @@
 <p>先把数字装栈1里</p>
 <p>然后再把栈1倒腾到栈2里</p>
 <p>主要是要注意栈为空时不要取数就行了</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">class CQueue {
-    stack<int> s1,s2;
-public:
-    CQueue() {
-        while(!s1.empty()) s1.pop();
-        while(!s2.empty()) s1.pop();
-    }
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">CQueue</span> <span class="token punctuation">{</span>
+    stack<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> s1<span class="token punctuation">,</span>s2<span class="token punctuation">;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token function">CQueue</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s1<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">void</span> <span class="token function">appendTail</span><span class="token punctuation">(</span><span class="token keyword">int</span> value<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        s1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    
+    <span class="token keyword">int</span> <span class="token function">deleteHead</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s1<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            s2<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>s1<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            s1<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> ans<span class="token operator">=</span>s2<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        s2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>s2<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            s1<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>s2<span class="token punctuation">.</span><span class="token function">top</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            s2<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-    void appendTail(int value) {
-        s1.push(value);
-    }
-
-    int deleteHead() {
-        while(!s1.empty())
-        {
-            s2.push(s1.top());
-            s1.pop();
-        }
-        if(s2.empty()) return -1;
-        int ans=s2.top();
-        s2.pop();
-        while(!s2.empty())
-        {
-            s1.push(s2.top());
-            s2.pop();
-        }
-        return ans;
-    }
-};
-
-/**
+<span class="token comment" spellcheck="true">/**
  * Your CQueue object will be instantiated and called as such:
  * CQueue* obj = new CQueue();
  * obj->appendTail(value);
  * int param_2 = obj->deleteHead();
- */
+ */</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
@@ -950,7 +950,7 @@ public:
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">2.1k</span>&nbsp;字
+                class="white-color">3.8k</span>&nbsp;字
             
             
             

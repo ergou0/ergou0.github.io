@@ -475,7 +475,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    58
+                    341
                 </div>
                 
 
@@ -504,43 +504,43 @@
             <div id="articleContent">
                 <p><a href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/" target="_blank" rel="noopener">题目链接</a></p>
 <h2 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h2><p>这种题目当然要用set啦</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">set <int> s;
-for(auto x:nums)
-{
-    if(s.count(x)) return x;
-    s.insert(x);
-}
-    return -1;
+<pre class="line-numbers language-cpp"><code class="language-cpp">set <span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> s<span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> x<span class="token operator">:</span>nums<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>s<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> x<span class="token punctuation">;</span>
+    s<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h2><p>set能做到的东西map肯定也行啊</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">map  <int,int> mp;
-int l=nums.size();
-for(int i=0;i<l;i++)
-{
-    if(!mp[nums[i]]) mp[nums[i]]++;
-    else
-        return nums[i];
-}
-    return -1;
+<pre class="line-numbers language-cpp"><code class="language-cpp">map  <span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> mp<span class="token punctuation">;</span>
+<span class="token keyword">int</span> l<span class="token operator">=</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>mp<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> mp<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="思路3"><a href="#思路3" class="headerlink" title="思路3"></a>思路3</h2><p>由于n很小，所以可以开一个大小为100005的数组，用下标维护</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">bool vis[100005]={0};//记得初始化
-int l=nums.size();
-for(int i=0;i<l;i++)
-    {
-        if(!vis[nums[i]]) vis[nums[i]]=1;
-        else
-            return nums[i];
-    }
-    return -1;
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">bool</span> vis<span class="token punctuation">[</span><span class="token number">100005</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//记得初始化</span>
+<span class="token keyword">int</span> l<span class="token operator">=</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>vis<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> vis<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span>
+            <span class="token keyword">return</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="思路4"><a href="#思路4" class="headerlink" title="思路4"></a>思路4</h2><p>这个方法不需要额外空间</p>
 <p>排序数组，前一个跟后一个一样就重复了啦</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">int l=nums.size();
-sort(nums.begin(),nums.end());
-for(int i=1;i<l;i++)
-    if(nums[i-1]==nums[i])return nums[i];
-    return -1;
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> l<span class="token operator">=</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">sort</span><span class="token punctuation">(</span>nums<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>nums<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">==</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token keyword">return</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="思路5"><a href="#思路5" class="headerlink" title="思路5"></a>思路5</h2><p>很神奇的原地交换</p>
 <p>我的理解是对排序的特殊考虑</p>
@@ -549,18 +549,18 @@ for(int i=1;i<l;i++)
 <p>送回的过程中有两种情况</p>
 <p>1.nums[i]!=i,此时我们让i回家</p>
 <p>2.nums[i]==i,说明出现了重复数字</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">int l=nums.size();
-for(int i=0;i<l;i++)
-    {
-        while(nums[i]!=i) 
-        {
-            if(nums[nums[i]]==nums[i]) return nums[i];
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">int</span> l<span class="token operator">=</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+    <span class="token punctuation">{</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">!=</span>i<span class="token punctuation">)</span> 
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">==</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">return</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-            swap(nums[i],nums[nums[i]]);
-        }
+            <span class="token function">swap</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>nums<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-    }
-    return -1;
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
@@ -974,7 +974,7 @@ for(int i=0;i<l;i++)
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">2.1k</span>&nbsp;字
+                class="white-color">3.8k</span>&nbsp;字
             
             
             

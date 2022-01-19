@@ -467,7 +467,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    105
+                    200
                 </div>
                 
 
@@ -497,53 +497,53 @@
                 <p>啊这两题比较简单所以放一起写</p>
 <p><del>主要是我懒</del></p>
 <h1 id="05-替换空格"><a href="#05-替换空格" class="headerlink" title="05. 替换空格"></a>05. 替换空格</h1><h2 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h2><p>最纯朴的想法</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">return s.replace(" ","%20");
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">return</span> s<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">,</span><span class="token string">"%20"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>当然这就要求你对于string有一定的了解</p>
 <h2 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h2><p>手模思路1</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">class Solution {
-public:
-    string replaceSpace(string s) {
-        string ans="";
-        int l=s.size();
-        for(int i=0;i<l;i++)
-        {
-            if(s[i]==' ') ans+="%20";
-            else ans+=s[i];
-        }
-        return ans;
-    }
-};
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    string <span class="token function">replaceSpace</span><span class="token punctuation">(</span>string s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        string ans<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> l<span class="token operator">=</span>s<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>l<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+        <span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">' '</span><span class="token punctuation">)</span> ans<span class="token operator">+</span><span class="token operator">=</span><span class="token string">"%20"</span><span class="token punctuation">;</span>
+            <span class="token keyword">else</span> ans<span class="token operator">+</span><span class="token operator">=</span>s<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h1 id="06-从尾到头打印链表"><a href="#06-从尾到头打印链表" class="headerlink" title="06. 从尾到头打印链表"></a>06. 从尾到头打印链表</h1><p>个人认为就这道题而言写递归意义不大还有爆栈的风险</p>
-<pre class="line-numbers language-lang-cpp"><code class="language-lang-cpp">/**
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
  *     ListNode *next;
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
- */
-class Solution {
-public:
-    vector<int> reversePrint(ListNode* head) {
-        vector<int> ans;
-            while(head)
-            {
-                ans.push_back(head->val);
-                head=head->next;
-            }
-        //反转ans，当然也可以用  ans.reverse(ans.begin(),ans.end());
-            int l=0,r=ans.size()-1;
-            while(l<r)
-            {
-                swap(ans[l],ans[r]);
-                l++;
-                r--;
-            }
-    return ans;
-    }
-};
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token function">reversePrint</span><span class="token punctuation">(</span>ListNode<span class="token operator">*</span> head<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> ans<span class="token punctuation">;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                ans<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>head<span class="token operator">-</span><span class="token operator">></span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                head<span class="token operator">=</span>head<span class="token operator">-</span><span class="token operator">></span>next<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//反转ans，当然也可以用  ans.reverse(ans.begin(),ans.end());</span>
+            <span class="token keyword">int</span> l<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>r<span class="token operator">=</span>ans<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span>l<span class="token operator">&lt;</span>r<span class="token punctuation">)</span>
+            <span class="token punctuation">{</span>
+                <span class="token function">swap</span><span class="token punctuation">(</span>ans<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">,</span>ans<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                l<span class="token operator">++</span><span class="token punctuation">;</span>
+                r<span class="token operator">--</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
@@ -941,7 +941,7 @@ public:
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">2.1k</span>&nbsp;字
+                class="white-color">3.8k</span>&nbsp;字
             
             
             
