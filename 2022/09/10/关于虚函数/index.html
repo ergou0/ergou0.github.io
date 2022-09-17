@@ -437,9 +437,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c++</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -467,21 +471,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-11
+                    2022-09-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    6 分
                 </div>
                 
 
@@ -503,13 +507,19 @@
             <div id="articleContent">
                 <p>虚函数好像是一个比较喜欢考的东西</p>
 <p>本文大部分转载于 <a href="https://blog.twofei.com/496/#layout_4" target="_blank" rel="noopener">这里</a> 还有一部分是在网上拼凑出来的</p>
-<p>虚函数带来的好处就是: 可以定义一个基类的指针, 其指向一个继承类, 当通过基类的指针去调用函数时, 可以在运行时决定该调用基类的函数还是继承类的函数. <strong>虚函数是实现多态(动态绑定)/接口函数的基础</strong></p>
+<h2 id="虚函数的作用"><a href="#虚函数的作用" class="headerlink" title="虚函数的作用"></a>虚函数的作用</h2><p>虚函数带来的好处就是: 可以定义一个基类的指针, 其指向一个继承类, 当通过基类的指针去调用函数时, 可以在运行时决定该调用基类的函数还是继承类的函数. <strong>虚函数是实现多态(动态绑定)/接口函数的基础</strong></p>
+<h2 id="虚函数的实现"><a href="#虚函数的实现" class="headerlink" title="虚函数的实现"></a>虚函数的实现</h2><p>编译器处理虚函数时，给每个对象添加一个<strong>隐藏的成员</strong>。隐藏的成员是一个<strong>指针类型的数据</strong>，指向的是<strong>函数地址数组</strong>，这个数组被称为<strong>虚函数表</strong></p>
+<p>虚函数表中存储的是<strong>类</strong>中的虚函数的地址</p>
 <p><strong>如果不使用指针调用, 虚函数调用不会发生动态绑定</strong></p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">A a<span class="token punctuation">;</span>
 A<span class="token operator">*</span> p<span class="token operator">=</span><span class="token operator">&amp;</span>a<span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>调用<code>a.func()</code>不会发生动态绑定</p>
-<p>调用<code>p-&gt;func() </code> 会,因为p不知道所指向的对象到底是A还是继承于A的对象</p>
+<p>调用<code>p-&gt;func() </code> 会,<strong>因为p不知道所指向的对象到底是A还是继承于A的对象</strong></p>
+<h2 id="虚函数的额外开销"><a href="#虚函数的额外开销" class="headerlink" title="虚函数的额外开销"></a>虚函数的额外开销</h2><p>使用虚函数时，对于内存和执行速度方面会有一定的成本:</p>
+<p>每个对象都会变大，变大的量为存储虚函数表指针</p>
+<p>对于每个类，编译器都会创建一个虚函数表</p>
+<p>对于每次调用虚函数，都需要额外执行一个操作，就是到表中查找虚函数地址</p>
 <h2 id="虚函数和纯虚函数"><a href="#虚函数和纯虚函数" class="headerlink" title="虚函数和纯虚函数"></a>虚函数和纯虚函数</h2><table>
 <thead>
 <tr>
@@ -530,7 +540,9 @@ A<span class="token operator">*</span> p<span class="token operator">=</span><sp
 <td align="center">不用实现</td>
 </tr>
 </tbody></table>
-<p>析构函数最好定义为虚函数，特别是对于含有继承关系的类；析构函数可以定义为纯虚函数，此时，其所在的类为抽象基类，不能创建实例化对象</p>
+<p>析构函数最好定义为虚函数，特别是对于含有继承关系的类；<strong>析构函数可以定义为纯虚函数，此时，其所在的类为抽象基类，不能创建实例化对象</strong></p>
+<p><strong>纯虚函数的作用</strong></p>
+<p>很多情况下，在基类中不能对虚函数给出具体的有意义的实现，就可以把它声明为纯虚函数，它的实现留给该基类的派生类去做</p>
 <h2 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h2><p>存在虚函数的类都有一个一维的虚函数表叫做虚表,每一个类的对象都有一个指向虚表开始的虚指针。<strong>虚表是和类对应的，虚表指针是和对象对应的</strong></p>
 <p>虚函数表存放的内容：<strong>类的虚函数的地址</strong>。<br>虚函数表建立的时间：<strong>编译阶段</strong>，即程序的编译过程中会将虚函数的地址放在虚函数表中。<br>虚表指针保存的位置：虚表指针存放在对象的内存空间中<strong>最前面的位置</strong>，这是为了保证正确取到虚函数的偏移量。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
@@ -546,7 +558,7 @@ A<span class="token operator">*</span> p<span class="token operator">=</span><sp
 Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220910194354084.png" alt="类对象的布局情况"></p>
-<h3 id="虚表与继承"><a href="#虚表与继承" class="headerlink" title="虚表与继承"></a>虚表与继承</h3><h4 id="在单继承没有覆盖的情况下，子类的虚表会紧跟父类的虚表（虚函数按照声明顺序放于表中）"><a href="#在单继承没有覆盖的情况下，子类的虚表会紧跟父类的虚表（虚函数按照声明顺序放于表中）" class="headerlink" title="在单继承没有覆盖的情况下，子类的虚表会紧跟父类的虚表（虚函数按照声明顺序放于表中）"></a>在单继承没有覆盖的情况下，子类的虚表会紧跟父类的虚表（虚函数按照声明顺序放于表中）</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
+<h3 id="虚表与继承"><a href="#虚表与继承" class="headerlink" title="虚表与继承"></a>虚表与继承</h3><h4 id="单继承无覆盖"><a href="#单继承无覆盖" class="headerlink" title="单继承无覆盖"></a>单继承无覆盖</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">int</span> base1_1<span class="token punctuation">;</span>
@@ -565,9 +577,9 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">derive1_fun1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911130852280.png" alt="image-20220911130852280"></p>
-<p>由于<code>Base1</code>只知道自己的两个虚函数索引<code>[0]和[1]</code>, 所以就算在后面加上了<code>[2]</code>, <code>Base1</code>根本不知情, 不会对它造成任何影响.</p>
-<h4 id="在单继承有覆盖的情况下，覆盖的子类会替代原先父类虚表的位置，其余的子类虚表会紧跟父类"><a href="#在单继承有覆盖的情况下，覆盖的子类会替代原先父类虚表的位置，其余的子类虚表会紧跟父类" class="headerlink" title="在单继承有覆盖的情况下，覆盖的子类会替代原先父类虚表的位置，其余的子类虚表会紧跟父类"></a>在单继承有覆盖的情况下，覆盖的子类会替代原先父类虚表的位置，其余的子类虚表会紧跟父类</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
+<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911130852280.png" alt="子类的虚表会紧跟父类的虚表（虚函数按照声明顺序放于表中）"></p>
+<p><strong>由于<code>Base1</code>只知道自己的两个虚函数索引<code>[0]和[1]</code>, 所以就算在后面加上了<code>[2]</code>, <code>Base1</code>根本不知情, 不会对它造成任何影响.</strong></p>
+<h4 id="单继承有覆盖"><a href="#单继承有覆盖" class="headerlink" title="单继承有覆盖"></a>单继承有覆盖</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">int</span> base1_1<span class="token punctuation">;</span>
@@ -587,8 +599,8 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">base1_fun1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911131152967.png" alt="image-20220911131152967"></p>
-<h4 id="在多继承没有覆盖的情况下，子类的虚表会紧跟第一个父类的虚表，其他的父类虚表中不会出现子类的虚表"><a href="#在多继承没有覆盖的情况下，子类的虚表会紧跟第一个父类的虚表，其他的父类虚表中不会出现子类的虚表" class="headerlink" title="在多继承没有覆盖的情况下，子类的虚表会紧跟第一个父类的虚表，其他的父类虚表中不会出现子类的虚表"></a>在多继承没有覆盖的情况下，子类的虚表会紧跟第一个父类的虚表，其他的父类虚表中不会出现子类的虚表</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
+<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911131152967.png" alt="覆盖的子类会替代原先父类虚表的位置，其余的子类虚表会紧跟父类"></p>
+<h4 id="多继承无覆盖"><a href="#多继承无覆盖" class="headerlink" title="多继承无覆盖"></a>多继承无覆盖</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">int</span> base1_1<span class="token punctuation">;</span>
@@ -620,8 +632,8 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">derive1_fun2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911140357684.png" alt="image-20220911140357684"></p>
-<h4 id="在多继承有覆盖的情况下，覆盖的子类会替代所有父类同名虚函数在虚表中的位置，其余的子类虚表会紧跟第一个父类的虚表"><a href="#在多继承有覆盖的情况下，覆盖的子类会替代所有父类同名虚函数在虚表中的位置，其余的子类虚表会紧跟第一个父类的虚表" class="headerlink" title="在多继承有覆盖的情况下，覆盖的子类会替代所有父类同名虚函数在虚表中的位置，其余的子类虚表会紧跟第一个父类的虚表"></a>在多继承有覆盖的情况下，覆盖的子类会替代所有父类同名虚函数在虚表中的位置，其余的子类虚表会紧跟第一个父类的虚表</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
+<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911140357684.png" alt="子类的虚表会紧跟第一个父类的虚表，其他的父类虚表中不会出现子类的虚表"></p>
+<h4 id="多继承有覆盖"><a href="#多继承有覆盖" class="headerlink" title="多继承有覆盖"></a>多继承有覆盖</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">int</span> base1_1<span class="token punctuation">;</span>
@@ -657,8 +669,8 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">derive1_fun2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911133342180.png" alt="image-20220911133342180"></p>
-<h2 id="基类没有虚函数"><a href="#基类没有虚函数" class="headerlink" title="基类没有虚函数"></a>基类没有虚函数</h2><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
+<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911133342180.png" alt="覆盖的子类会替代所有父类同名虚函数在虚表中的位置，其余的子类虚表会紧跟第一个父类的虚表"></p>
+<h4 id="基类没有虚函数"><a href="#基类没有虚函数" class="headerlink" title="基类没有虚函数"></a>基类没有虚函数</h4><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base1</span>
 <span class="token punctuation">{</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">int</span> base1_1<span class="token punctuation">;</span>
@@ -684,7 +696,7 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
     <span class="token keyword">virtual</span> <span class="token keyword">void</span> <span class="token function">derive1_fun2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911141812503.png" alt="image-20220911141812503"></p>
+<p><img src="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/image-20220911141812503.png" alt="子类的虚函数指针会被放在最前面"></p>
 <p>总结:</p>
 <p>子类虚表跟在第一个父类后面,有覆盖则覆盖 </p>
 <p>有虚表的放前面</p>
@@ -694,6 +706,11 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
 <p>虚函数的调用是由父类指针进行完成的，而对象的构造则是由编译器完成的，由于在创建一个对象的过程中，涉及到资源的创建，类型的确定，而这些是无法在运行过程中确定的，需要在编译的过程中就确定下来。而多态是在运行过程中体现出来的，所以是不能够通过虚函数来创建构造函数的，与实例化的次序不同也有关系。</p>
 <h3 id="为什么基类的析构函数常定义为虚函数"><a href="#为什么基类的析构函数常定义为虚函数" class="headerlink" title="为什么基类的析构函数常定义为虚函数"></a>为什么基类的析构函数常定义为虚函数</h3><p><strong>在实现多态时，当用基类操作派生类，在析构时防止只析构基类而不析构派生类的状况发生，要将基类的析构函数声明为虚函数</strong></p>
 <p>由于类的多态性，基类指针可以指向派生类的对象，如果删除该基类的指针，就会调用该指针指向的派生类析构函数，而派生类的析构函数又自动调用基类的析构函数，这样整个派生类的对象完全被释放。<br>如果析构函数不被声明成虚函数，则编译器实施静态绑定，在删除基类指针时，只会调用基类的析构函数而不调用派生类析构函数，这样就会造成派生类对象析构不完全，造成内存泄漏。</p>
+<h2 id="虚函数的内联"><a href="#虚函数的内联" class="headerlink" title="虚函数的内联"></a>虚函数的内联</h2><p>ps:虚函数存在的意义是运行时的多态,所以虚函数的内联基本没有意义</p>
+<p>虚函数可以是内联函数，内联是可以修饰虚函数的，但是<strong>当虚函数表现多态性的时候不能内联</strong></p>
+<p>内联是在编译期建议编译器内联，而虚函数的多态性在运行期，编译器无法知道运行期调用哪个代码，因此虚函数表现为多态性时不可以内联</p>
+<p><strong>inline virtual 唯一可以内联的时候</strong></p>
+<p>编译器知道所调用的对象是哪个类，这只有在编译器<strong>具有实际对象而不是对象的指针或引用时才会发生</strong>。</p>
 
                 
             </div>
@@ -757,7 +774,11 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c++</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -1074,7 +1095,7 @@ Base1 b1<span class="token punctuation">,</span>b2<span class="token punctuation
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">31.1k</span>&nbsp;字
+                class="white-color">32.8k</span>&nbsp;字
             
             
             

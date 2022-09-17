@@ -467,21 +467,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-10
+                    2022-09-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    953
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -558,7 +558,11 @@
 </tbody></table>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">sizeof</span><span class="token punctuation">(</span>string<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token number">32</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>编译器将程序中的每个 “数据单元” 安排在字的整数倍的地址指向的内存之中</p>
+<h2 id="关于sizeof函数"><a href="#关于sizeof函数" class="headerlink" title="关于sizeof函数"></a>关于sizeof函数</h2><p>头文件&lt; iostream &gt;</p>
+<p>sizeof 是在<strong>编译</strong>的时候，查找符号表，判断类型，然后根据基础类型来取值</p>
+<p><strong>如果 sizeof 运算符的参数是一个不定长数组，则该需要在运行时计算数组长度</strong></p>
+<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>编译器将程序中的每个 “数据单元” 安排在字的整数倍的地址指向的内存之中(数据的首地址为某个数k,通常为4或8的倍数)</p>
+<p>vs中使用#pragma pack(n) 指定编译器按照n个字节对齐</p>
 <p>**内存对齐的原则: **</p>
 <p>结构体变量的<strong>首地址</strong>能够被其<strong>最宽基本类型成员大小</strong>与<strong>对齐基数</strong>中的较小者所整除；<br>结构体每个成员相对于结构体首地址的<strong>偏移量</strong>  (offset)  都是该成员大小与对齐基数中的较小者的整数倍，如有需要编译器会在成员之间加上填充字节 （internal padding）；<br>结构体的<strong>总大小</strong>为结构体最宽基本类型成员大小与对齐基数中的较小者的<strong>整数倍</strong>，如有需要编译器会在最末一个成员之后加上填充字节 （trailing padding）。</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/*
@@ -747,6 +751,14 @@
                     </div>
                 </div>
                 
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                </div>
+                
             </div>
         </div>
         
@@ -786,6 +798,14 @@
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -986,7 +1006,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">31.1k</span>&nbsp;字
+                class="white-color">32.8k</span>&nbsp;字
             
             
             

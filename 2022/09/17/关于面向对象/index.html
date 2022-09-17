@@ -4,7 +4,7 @@
 
 <head>
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
-    <meta name="keywords" content="struct和class, 咩">
+    <meta name="keywords" content="关于面向对象, 咩">
     <meta name="description" content="来了,坐">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>struct和class | 二狗爱学习</title>
+    <title>关于面向对象 | 二狗爱学习</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -311,12 +311,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">struct和class</h1>
+                    <h1 class="description center-align post-title">关于面向对象</h1>
                 </div>
             </div>
         </div>
@@ -437,9 +437,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c++</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -460,28 +464,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-09-11
+                    2022-09-17
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-11
+                    2022-09-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    276
+                    859
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -501,51 +505,29 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>被问了struct和class有什么区别</p>
-<p>答了默认的访问属性不同,但感觉对面不是很满意</p>
-<p>查点资料总结一下</p>
-<p>确实不太明白,因为c++primer里面只讲了这个,所以我也不清楚对面到底想问什么</p>
-<h2 id="c中的struct和c-中的struct"><a href="#c中的struct和c-中的struct" class="headerlink" title="c中的struct和c++中的struct"></a>c中的struct和c++中的struct</h2><table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">c</th>
-<th align="center">c++</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">成员函数</td>
-<td align="center">不能</td>
-<td align="center">可以</td>
-</tr>
-<tr>
-<td align="center">静态成员</td>
-<td align="center">不能</td>
-<td align="center">可以</td>
-</tr>
-<tr>
-<td align="center">防控属性</td>
-<td align="center">默认public,不能修改</td>
-<td align="center">public\private\protected</td>
-</tr>
-<tr>
-<td align="center">继承关系</td>
-<td align="center">不可以继承</td>
-<td align="center">可以继承</td>
-</tr>
-<tr>
-<td align="center">初始化</td>
-<td align="center">不能直接初始化数据成员</td>
-<td align="center">可以</td>
-</tr>
-</tbody></table>
-<p><strong>在C中使用结构体时需要加上struct，或者对结构体使用typedef取别名，而C++可直接使用</strong></p>
-<h2 id="c-中的struct和class"><a href="#c-中的struct和class" class="headerlink" title="c++中的struct和class"></a>c++中的struct和class</h2><p>c++中class和struct区别不是很大</p>
-<p>如果没有多态和虚拟继承，在C++中，struct和class的存取效率完全相同</p>
-<p><strong>主要区别只有继承权限和模板</strong></p>
-<p>struct中的成员默认是public,class中默认的是private</p>
-<p>默认继承权限struct是public,class是private</p>
-<p>在用模板的时候只能写<code>template &lt;class Type&gt;</code>或<code>template&lt;typemname Type&gt;</code>    不能写template<code>&lt;struct Type&gt;</code></p>
+                <p>c++的面试经常以”谈谈面向对象吧”开头</p>
+<p>当然,以”今天我们就问到这里,你还有什么想知道的吗结尾”…</p>
+<h2 id="什么是面向对象"><a href="#什么是面向对象" class="headerlink" title="什么是面向对象"></a>什么是面向对象</h2><p>对象是指具体的某一个事物</p>
+<p>事物的抽象就是类，类中包含数据（成员变量）和动作（成员方法）</p>
+<h2 id="面向对象的三大特性"><a href="#面向对象的三大特性" class="headerlink" title="面向对象的三大特性"></a>面向对象的三大特性</h2><h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>将客观事物进行抽象，将其属性和方法合成为一个类，类封装了成员变量和成员函数，同时又实现对属性和方法的权限控制，降低与外界的耦合度</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>子类继承父类的各种属性和方法，同时子类还可以在父类的基础上重新定义和扩展父类的属性和方法，使其具有不同的功能，<strong>继承提高了代码的复用性及可维护性</strong> </p>
+<p><strong>但是当父类中的成员变量、成员函数或者类本身被 final 关键字修饰时，修饰的类不能继承，修饰的成员不能重写或修改</strong></p>
+<p>继承的好处：提高代码的复用性；提高代码的拓展性；是多态的前提</p>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态就是不同继承类的对象，<strong>对同一消息做出不同的响应</strong>，基类的指针指向或绑定到派生类的对象，使得基类指针呈现不同的表现方式</p>
+<h4 id="静态多态"><a href="#静态多态" class="headerlink" title="静态多态"></a>静态多态</h4><p><strong>静态多态有函数重载、运算符重载、泛型编程等</strong></p>
+<p>静态多态是编译器在编译期间完成的，编译器会根据实参类型来选择调用合适的函数，如果有合适的函数就调用，没有的话就会发出警告或者报错</p>
+<h4 id="动态多态"><a href="#动态多态" class="headerlink" title="动态多态"></a>动态多态</h4><p>动态多态是在程序运行时根据基类的引用（指针）指向的对象来确定自己具体该调用哪一个类的虚函数。当父类指针（引用）指向 父类对象时，就调用父类中定义的虚函数；即当父类指针（引用）指向 子类对象时，就调用子类中定义的虚函数</p>
+<p><strong>动态多态行为的表现效果</strong></p>
+<p>同样的调用语句在实际运行时有多种不同的表现形态</p>
+<p><strong>实现动态多态的条件</strong></p>
+<p>要有继承关系</p>
+<p>要有虚函数重写</p>
+<p>要有父类指针（父类引用）指向子类对象 </p>
+<h2 id="重载-重写-隐藏"><a href="#重载-重写-隐藏" class="headerlink" title="重载 重写 隐藏"></a>重载 重写 隐藏</h2><p>都是对于函数来说的</p>
+<h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p><strong>函数名相同,函数的参数列表不同</strong>,不关心函数返回类型</p>
+<p> C++中重载的实现 采用命名倾轧（name mangling）技术，编译时会将同名的函数或方法根据某种规则生成不同的函数或方法名（因为函数或方法的特征标不一样）</p>
+<h3 id="隐藏"><a href="#隐藏" class="headerlink" title="隐藏"></a>隐藏</h3><p>是指派生类的函数屏蔽了与其同名的基类函数，<strong>只要同名函数，不管参数列表是否相同</strong>，基类函数都会被隐藏</p>
+<h3 id="重写-覆盖"><a href="#重写-覆盖" class="headerlink" title="重写(覆盖)"></a>重写(覆盖)</h3><p>是指派生类中存在重新定义的函数。<strong>函数名、参数列表、返回值类型都必须同基类中被重写的函数一致</strong>，只有函数体不同。派生类调用时会调用派生类的重写函数，不会调用被重写函数。<strong>重写的基类中被重写的函数必须有 virtual 修饰</strong></p>
 
                 
             </div>
@@ -572,7 +554,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ergou0.github.io/2022/09/11/struct%E5%92%8Cclass/">http://ergou0.github.io/2022/09/11/struct%E5%92%8Cclass/</a>
+                    <a href="http://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">http://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -609,7 +591,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c++</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -651,17 +637,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/09/12/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-week04/">
+                <a href="/2022/09/17/%E5%85%B3%E4%BA%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="每日一题 week04">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="关于面向对象">
                         
-                        <span class="card-title">每日一题 week04</span>
+                        <span class="card-title">关于面向对象</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -671,20 +658,29 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/" class="post-category">
-                                    刷题笔记
+                            <a href="/categories/%E5%85%AB%E8%82%A1/" class="post-category">
+                                    八股
                                 </a>
                             
                             
                         </span>
                     </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -696,13 +692,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/09/10/%E5%85%B3%E4%BA%8E%E8%99%9A%E5%87%BD%E6%95%B0/">
+                <a href="/2022/09/15/%E8%99%9A%E7%BB%A7%E6%89%BF/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="关于虚函数">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="虚继承">
                         
-                        <span class="card-title">关于虚函数</span>
+                        <span class="card-title">虚继承</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -713,7 +709,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-15
                             </span>
                         <span class="publish-author">
                             

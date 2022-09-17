@@ -437,9 +437,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c++</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -467,21 +471,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-09
+                    2022-09-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    751
+                    950
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    3 分
                 </div>
                 
 
@@ -536,7 +540,18 @@
 <td align="center">局部变量，函数的参数</td>
 <td align="center">由程序员控制</td>
 </tr>
+<tr>
+<td align="center">生长方向</td>
+<td align="center">生长方式是向下的，也就是沿着内存地址减小的方向增长</td>
+<td align="center">生长方向是向上的，也就是沿着内存地址增加的方向</td>
+</tr>
+<tr>
+<td align="center">分配方式</td>
+<td align="center">两种分配方式：静态分配和动态分配，静态分配是编译器完成的，比如局部变量的分配；动态分配由alloca函数进行分配，但是栈的动态分配和堆是不同的，它的动态分配是由编译器实现的，无需我们手工实现</td>
+<td align="center">堆都是动态分配的，没有静态分配的堆</td>
+</tr>
 </tbody></table>
+<p><strong>总体来说，栈的空间是要小于堆的。堆内存几乎是没有什么限制的；但是对于栈来讲，一般是有一定的空间大小的</strong></p>
 <h2 id="c-中类的对象建立"><a href="#c-中类的对象建立" class="headerlink" title="c++中类的对象建立"></a>c++中类的对象建立</h2><p>静态建立:  直接调用类的构造函数</p>
 <p>动态建立: 通过new创建</p>
 <h2 id="限制类的对象只能在堆上创建"><a href="#限制类的对象只能在堆上创建" class="headerlink" title="限制类的对象只能在堆上创建"></a>限制类的对象只能在堆上创建</h2><p>思路1:将析构函数设为私有</p>
@@ -659,7 +674,11 @@ A<span class="token operator">*</span> p<span class="token operator">=</span>A<s
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c++</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -976,7 +995,7 @@ A<span class="token operator">*</span> p<span class="token operator">=</span>A<s
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">31.1k</span>&nbsp;字
+                class="white-color">32.8k</span>&nbsp;字
             
             
             
