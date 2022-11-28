@@ -467,14 +467,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-09-17
+                    2022-10-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.2k
                 </div>
                 
 
@@ -561,6 +561,19 @@
 <h2 id="关于sizeof函数"><a href="#关于sizeof函数" class="headerlink" title="关于sizeof函数"></a>关于sizeof函数</h2><p>头文件&lt; iostream &gt;</p>
 <p>sizeof 是在<strong>编译</strong>的时候，查找符号表，判断类型，然后根据基础类型来取值</p>
 <p><strong>如果 sizeof 运算符的参数是一个不定长数组，则该需要在运行时计算数组长度</strong></p>
+<h2 id="sizeof和strlen"><a href="#sizeof和strlen" class="headerlink" title="sizeof和strlen"></a>sizeof和strlen</h2><p>笔试很喜欢问这个东西</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token keyword">char</span> arr<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// warning: 'sizeof' on array function parameter 'arr' will return size of 'char*' .</span>
+    cout <span class="token operator">&lt;&lt;</span> <span class="token function">strlen</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true">/*
+输出结果：
+8
+5
+*/</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>若字符数组 arr 作为函数的形参，sizeof(arr) 中 arr 被当作字符指针来处理，strlen(arr) 中 arr 依然是字符数组</p>
+<p>strlen 本身是库函数，因此在程序运行过程中，计算长度；而 sizeof 在编译时，计算长度；</p>
+<p>sizeof是c++中的运算符,它 的参数可以是类型，也可以是变量；strlen 的参数必须是 char* 类型的变量</p>
 <h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>编译器将程序中的每个 “数据单元” 安排在字的整数倍的地址指向的内存之中(数据的首地址为某个数k,通常为4或8的倍数)</p>
 <p>vs中使用#pragma pack(n) 指定编译器按照n个字节对齐</p>
 <p>**内存对齐的原则: **</p>
@@ -1006,7 +1019,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">32.8k</span>&nbsp;字
+                class="white-color">57.8k</span>&nbsp;字
             
             
             
