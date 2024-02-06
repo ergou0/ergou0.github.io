@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="三次握手与四次挥手都是为了解决一个问题: 在不可靠的网络连接中建立可靠传输 TCP报文段部首格式  序号: 用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100字节，那么下一个报文段的序号应为 401,用来解决网络包乱序问题 确认号: 期望收到的下一个报文段的序号。例如 B 正确收到 A 发送来的一个报文段，序号为 501，携带的数据长度为 200">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三次握手和四次挥手">
+<meta property="og:url" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="三次握手与四次挥手都是为了解决一个问题: 在不可靠的网络连接中建立可靠传输 TCP报文段部首格式  序号: 用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100字节，那么下一个报文段的序号应为 401,用来解决网络包乱序问题 确认号: 期望收到的下一个报文段的序号。例如 B 正确收到 A 发送来的一个报文段，序号为 501，携带的数据长度为 200">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926165746122.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926163527552.png">
+<meta property="og:image" content="https://ergou0.github.io/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/format,png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/fe898053d2e93abac950b1637645943f.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926171359201.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/fin_wait_2.drawio.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/fin_wait_2%E6%AD%BB%E7%AD%89.drawio.png">
+<meta property="article:published_time" content="2022-09-26T08:06:26.000Z">
+<meta property="article:modified_time" content="2022-10-11T10:45:17.774Z">
+<meta property="article:author" content="liergou">
+<meta property="article:tag" content="计网">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ergou0.github.io/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926165746122.png">
+  
+  
+  
+  <title>三次握手和四次挥手 - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="三次握手和四次挥手"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-26 16:06" pubdate>
+          2022年9月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">三次握手和四次挥手</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>三次握手与四次挥手都是为了解决一个问题: 在不可靠的网络连接中建立可靠传输</p>
+<h2 id="TCP报文段部首格式"><a href="#TCP报文段部首格式" class="headerlink" title="TCP报文段部首格式"></a>TCP报文段部首格式</h2><img src="/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926165746122.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220926165746122">
+
+<p><strong>序号</strong>: 用于对字节流进行编号，例如序号为 301，表示第一个字节的编号为 301，如果携带的数据长度为 100字节，那么下一个报文段的序号应为 401,<strong>用来解决网络包乱序问题</strong></p>
+<p><strong>确认号</strong>: 期望收到的下一个报文段的序号。例如 B 正确收到 A 发送来的一个报文段，序号为 501，携带的数据长度为 200 字节，因此 B 期望下一个报文段的序&#96;号为 701，B 发送给 A 的确认报文段中确认号就为 701,<strong>用来解决丢包问题</strong></p>
+<p><strong>数据偏移</strong>: 指的是数据部分距离报文段起始处的偏移量，实际上指的是首部的长度</p>
+<p><strong>确认 ACK</strong>: 当 ACK&#x3D;1 时确认号字段有效否则无效。TCP 规定,在连接建立后所有传送的报文段都必须把ACK 置 1。<strong>同步 SYN</strong>: 在连<strong>接建立时</strong>用来同步序号。当 <strong>SYN&#x3D;1，ACK&#x3D;0 时表示这是一个连接请求报文段</strong>。若对方同意建立连接，则响应报文中 SYN&#x3D;1，ACK&#x3D;1</p>
+<p><strong>终止 FIN</strong>: 用来释放一个连接，当 FIN&#x3D;1 时，表示此报文段的发送方的数据已发送完毕，并要求释放连接</p>
+<p><strong>窗口</strong>: 窗口值作为接收方让发送方设置其发送窗口的依据。之所以要有这个限制，是因为接收方的数据缓存空间是有限的</p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><img src="/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926163527552.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220926163527552">
+
+
+
+<h3 id="为什么要第三次握手"><a href="#为什么要第三次握手" class="headerlink" title="为什么要第三次握手"></a>为什么要第三次握手</h3><h4 id="避免历史连接"><a href="#避免历史连接" class="headerlink" title="避免历史连接"></a>避免历史连接</h4><p>防止已经失效的连接请求到达服务器, 让服务器打开错误连接</p>
+<p>客户端发送的连接请求如果在网络中滞留，那么就会隔很长一段时间才能收到服务器端发回的连接确认。客户端等待一个超时重传时间之后，就会重新请求连接。但是这个滞留的连接请求最后还是会到达服务器，如果不进行三次握手，那么服务器就会打开两个连接。<strong>如果有第三次握手，客户端会忽略服务器之后发送的对滞留连接请求的连接确认，不进行第三次握手，因此就不会再次打开连接</strong></p>
+<p><img src="/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/format,png" srcset="/img/loading.gif" lazyload alt="三次握手避免历史连接"></p>
+<h5 id="为什么两次握手不能阻止历史连接"><a href="#为什么两次握手不能阻止历史连接" class="headerlink" title="为什么两次握手不能阻止历史连接"></a>为什么两次握手不能阻止历史连接</h5><p>主要是服务端不知道这是一个失效的请求连接,在收到SNK报文后立即发送数据,就会造成资源浪费</p>
+<img src="/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/fe898053d2e93abac950b1637645943f.png" srcset="/img/loading.gif" lazyload class="" alt="两次握手无法阻止历史连接">
+
+
+
+<h4 id="同步双方初始序列号"><a href="#同步双方初始序列号" class="headerlink" title="同步双方初始序列号"></a>同步双方初始序列号</h4><p>就是让双方都知道序列号已经同步了,维护TCP的可靠传输</p>
+<h4 id="避免资源浪费"><a href="#避免资源浪费" class="headerlink" title="避免资源浪费"></a>避免资源浪费</h4><p>如果没有第三次握手, 服务端无法确认自己的ACK_SYN报文是否正确到达客户端, 所以就只能收到SYN就建立连接,这样会造成资源浪费 (还是跟历史连接有关)</p>
+<h3 id="为什么第三次可以携带数据"><a href="#为什么第三次可以携带数据" class="headerlink" title="为什么第三次可以携带数据"></a>为什么第三次可以携带数据</h3><p>因为当客户端收到服务器的回应时,客户端就可以确认可以正常接收和发送数据,但是服务器还不知道</p>
+<p>所以客户端要告诉服务器这件事情,顺便可以带个数据就可以白嫖</p>
+<h4 id="为什么前两次不携带数据"><a href="#为什么前两次不携带数据" class="headerlink" title="为什么前两次不携带数据"></a>为什么前两次不携带数据</h4><p>因为服务器每次解析数据都需要消耗资源</p>
+<p>前两次发送如果失败就会浪费资源</p>
+<p>同时可能有坏蛋通过不断向服务器发送连接请求,导致服务器因资源殆尽挂掉</p>
+<h3 id="序列号与数据"><a href="#序列号与数据" class="headerlink" title="序列号与数据"></a>序列号与数据</h3><p>TCP标准规定，ACK报文段可以携带数据，但是如果不携带数据就不消耗序号</p>
+<p>SYN&#x3D;1的报文段不可以携带数据，但是要消耗掉一个序号</p>
+<p>FIN报文段也是即使不携带数据，它也消耗一个序号</p>
+<h3 id="如果第一次握手丢失会怎么样"><a href="#如果第一次握手丢失会怎么样" class="headerlink" title="如果第一次握手丢失会怎么样"></a>如果第一次握手丢失会怎么样</h3><p>客户端发完SYN报文后进入SYN_SENT状态</p>
+<p>如果收不到服务端的SYN-ACK报文,就会触发<strong>超时重传机制</strong>,<strong>重传的SYN报文的序列号是一样的</strong></p>
+<h4 id="超时多少算超时"><a href="#超时多少算超时" class="headerlink" title="超时多少算超时"></a>超时多少算超时</h4><p>这个跟内核有关</p>
+<p>通常，第一次超时重传是在 1 秒后，第二次超时重传是在 2 秒，第三次超时重传是在 4 秒后，第四次超时重传是在 8 秒后，第五次是在超时重传 16 秒后。没错，<strong>每次超时的时间是上一次的 2 倍</strong></p>
+<p>当第五次超时重传后 (达到最大重传次数时)，会继续等待 32 秒，如果服务端仍然没有回应 ACK，客户端就不再发送 SYN 包，然后断开 TCP 连接</p>
+<p>所以，总耗时是 1+2+4+8+16+32&#x3D;63 秒，大约 1 分钟左右</p>
+<h3 id="如果第二次握手丢失会怎么样"><a href="#如果第二次握手丢失会怎么样" class="headerlink" title="如果第二次握手丢失会怎么样"></a>如果第二次握手丢失会怎么样</h3><p>第二次SYN-ACK丢失,那么两边都会怀疑自己</p>
+<p>客户端没收到第二次握手,他就会怀疑自己是不是第一次握手SYN报文丢失</p>
+<p>服务器没收到第三次握手,他就会怀疑是不是第二次握手SYN-ACK报文丢失</p>
+<p>而他们解决这个的办法,就是重传</p>
+<p>所以两边都会重传</p>
+<p>客户端重传第一次的报文</p>
+<p>服务器重传第二次的报文</p>
+<p>过程大概跟上面一样</p>
+<p>如果大于最大重传次数他们两还没接上,就会断开TCP连接,等待下次有缘再见</p>
+<h3 id="如果第三次握手丢失会怎么样"><a href="#如果第三次握手丢失会怎么样" class="headerlink" title="如果第三次握手丢失会怎么样"></a>如果第三次握手丢失会怎么样</h3><p>当客户端收到SYN-ACK后,他就知道我们可以建立连接了,并且进入ESTABLISH状态</p>
+<p>这个时候他会很自信 : 我他妈收发都没问题,所以一定不会是我的问题 !  所以<strong>ACK报文不会重传</strong></p>
+<p>但是服务器他不知道啊,所以他就会怀疑自己,疯狂发送SYN-ACK报文</p>
+<p>超过最大重传次数就会自己断开连接</p>
+<p>至于客户端, 当他再次向服务器发送数据时,会收到RST&#x3D;1 的报文,这个时候他就会知道服务器已经跑路了</p>
+<p>ps:</p>
+<p>由于客户端在发完ACk包后进入ESTABLISHED状态,如果后续客户端再向服务器发送数据包,服务器可以从里面得到与ACK包一样的数据(相当于第三次传输带了数据)</p>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><img src="/2022/09/26/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/image-20220926171359201.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220926171359201">
+
+
+
+
+
+
+
+
+
+<p><strong>主动关闭连接的才有TIME_WAIT状态</strong></p>
+<h3 id="为什么需要四次挥手"><a href="#为什么需要四次挥手" class="headerlink" title="为什么需要四次挥手"></a>为什么需要四次挥手</h3><ul>
+<li>客户端主动调用关闭连接的函数，于是就会发送 FIN 报文，这个 FIN 报文代表客户端不会再发送数据了，进入 FIN_WAIT_1 状态；</li>
+<li>服务端收到了 FIN 报文，然后马上回复一个 ACK 确认报文，此时服务端进入 CLOSE_WAIT 状态。在收到 FIN 报文的时候，TCP 协议栈会为 FIN 包插入一个文件结束符 EOF 到接收缓冲区中，服务端应用程序可以通过 read 调用来感知这个 FIN 包，这个 EOF 会被<strong>放在已排队等候的其他已接收的数据之后</strong>，所以必须要得继续 read 接收缓冲区已接收的数据；</li>
+<li>接着，当服务端在 read 数据的时候，最后自然就会读到 EOF，接着 <strong>read() 就会返回 0，这时服务端应用程序如果有数据要发送的话，就发完数据后才调用关闭连接的函数，如果服务端应用程序没有数据要发送的话，可以直接调用关闭连接的函数</strong>，这时服务端就会发一个 FIN 包，这个 FIN 报文代表服务端不会再发送数据了，之后处于 LAST_ACK 状态；</li>
+<li>客户端接收到服务端的 FIN 包，并发送 ACK 确认包给服务端，此时客户端将进入 TIME_WAIT 状态；</li>
+<li>服务端收到 ACK 确认包后，就进入了最后的 CLOSE 状态；</li>
+<li>客户端经过 2MSL 时间之后，也进入 CLOSE 状态；</li>
+</ul>
+<p>每个方向都需要<strong>一个 FIN 和一个 ACK</strong>，因此通常被称为<strong>四次挥手</strong></p>
+<p><strong>是否要发送第三次挥手的控制权不在内核，而是在被动关闭方（上图的服务端）的应用程序，因为应用程序可能还有数据要发送，由应用程序决定什么时候调用关闭连接的函数，当调用了关闭连接的函数，内核就会发送 FIN 报文了</strong>，所以服务端的 ACK 和 FIN 一般都会分开发送</p>
+<h4 id="FIN-报文一定得调用关闭连接的函数，才会发送吗？"><a href="#FIN-报文一定得调用关闭连接的函数，才会发送吗？" class="headerlink" title="FIN 报文一定得调用关闭连接的函数，才会发送吗？"></a>FIN 报文一定得调用关闭连接的函数，才会发送吗？</h4><p>不一定</p>
+<p>如果进程退出了，不管是不是正常退出，还是异常退出（如进程崩溃），内核都会发送 FIN 报文，与对方完成四次挥手</p>
+<h3 id="第一次挥手丢失了会怎么办"><a href="#第一次挥手丢失了会怎么办" class="headerlink" title="第一次挥手丢失了会怎么办"></a>第一次挥手丢失了会怎么办</h3><p>客户端会重传,等待服务端的ACK报文,当达到最大重传次数时,会直接断开连接</p>
+<h3 id="第二次挥手丢失了会怎么办"><a href="#第二次挥手丢失了会怎么办" class="headerlink" title="第二次挥手丢失了会怎么办"></a>第二次挥手丢失了会怎么办</h3><p>由于ACK报文不会重传,所以客户端会疯狂发送SIN报文,直到收到第二次挥手或者达到最大重传次数</p>
+<p>如果达到最大重传次数,就会等一段时间然后关闭连接</p>
+<h4 id="close-和shutdown"><a href="#close-和shutdown" class="headerlink" title="close()和shutdown()"></a>close()和shutdown()</h4><ul>
+<li>close 函数，同时 socket 关闭发送方向和读取方向，也就是 socket 不再有发送和接收数据的能力。如果有多进程&#x2F;多线程共享同一个 socket，如果有一个进程调用了 close 关闭只是让 socket 引用计数 -1，并不会导致 socket 不可用，同时也不会发出 FIN 报文，其他进程还是可以正常读写该 socket，直到引用计数变为 0，才会发出 FIN 报文。</li>
+<li>shutdown 函数，可以指定 socket 只关闭发送方向而不关闭读取方向，也就是 socket 不再有发送数据的能力，但是还是具有接收数据的能力。如果有多进程&#x2F;多线程共享同一个 socket，shutdown 则不管引用计数，直接使得该 socket 不可用，然后发出 FIN 报文，如果有别的进程企图使用该 socket，将会受到影响</li>
+</ul>
+<p>对于 close 函数关闭的连接，由于无法再发送和接收数据，所以<code>FIN_WAIT2</code> 状态不可以持续太久，而 <code>tcp_fin_timeout</code> 控制了这个状态下连接的持续时长，默认值是 60 秒</p>
+<p>当收到客户端收到第二次挥手后会进入FIN_WAIT_2状态</p>
+<p>如果第一次挥手是调用close() 关闭连接,会等待60s后关闭</p>
+<p>如果主动关闭方使用 shutdown 函数关闭连接，指定了只关闭发送方向，而接收方向并没有关闭，那么意味着主动关闭方还是可以接收数据</p>
+<p>如果主动关闭方一直没收到第三次挥手，那么主动关闭方的连接将会一直处于 <code>FIN_WAIT2</code> 状态（<code>tcp_fin_timeout</code> 无法控制 shutdown 关闭的连接）</p>
+<p><img src="三次握手和四次挥手/fin_wait_2.drawio.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 33%;" />|<img src="三次握手和四次挥手/fin_wait_2死等.drawio.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 33%;" /></p>
+<h3 id="第三次挥手丢失了会怎么办"><a href="#第三次挥手丢失了会怎么办" class="headerlink" title="第三次挥手丢失了会怎么办"></a>第三次挥手丢失了会怎么办</h3><p>当服务器收到客户端的FIN报文(第一次挥手) 后,内核会自动回复ACk,同时连接处于CLOSE_WAIT状态</p>
+<p>但是此时内核没有权利代替进程关闭连接,必须由进程主动调用close函数来触发服务器发送FIN报文</p>
+<p>服务器处于CLOSE_WAIT状态时, 调用了close() 函数,内核就会发出FIN报文(第三次挥手),同时连接进入LAST_ACK状态,等待客户端返回ACK来确认关闭连接</p>
+<p>如果迟迟收不到这个 ACK，服务端就会重发 FIN 报文，重发次数仍然由 <code>tcp_orphan_retrie</code>s 参数控制，这与客户端重发 FIN 报文的重传次数控制方式是一样的</p>
+<p>达到最大重传次数以后</p>
+<p>如果还是没能收到客户端的第四次挥手（ACK报文），那么服务端就会断开连接。</p>
+<p>客户端因为是通过 close 函数关闭连接的，处于 FIN_WAIT_2 状态是有时长限制的，如果 tcp_fin_timeout 时间内还是没能收到服务端的第三次挥手（FIN 报文），那么客户端就会断开连接</p>
+<h3 id="第四次挥手丢失了会怎么办"><a href="#第四次挥手丢失了会怎么办" class="headerlink" title="第四次挥手丢失了会怎么办"></a>第四次挥手丢失了会怎么办</h3><p>客户端收到服务端FIN报文后,会发送ACK,并等待2MSL后自动关闭</p>
+<p>服务端（被动关闭方）没有收到 ACK 报文前，还是处于 LAST_ACK 状态</p>
+<p>如果第四次挥手的 ACK 报文没有到达服务端，服务端就会重发 FIN 报文，重发次数仍然由前面介绍过的 <code>tcp_orphan_retries</code> 参数控制</p>
+<p>当达到最大重传次数后,服务端会自己关闭连接</p>
+<h2 id="关于TIME-WAIT"><a href="#关于TIME-WAIT" class="headerlink" title="关于TIME_WAIT"></a>关于TIME_WAIT</h2><h3 id="为什么TIME-WAIT等待时间是2MSL"><a href="#为什么TIME-WAIT等待时间是2MSL" class="headerlink" title="为什么TIME_WAIT等待时间是2MSL"></a>为什么TIME_WAIT等待时间是2MSL</h3><p>MSL ( Maximum Segment Lifetime ), 报文最大生存时间, 是任何报文在网络上存在的最长时间, 超过这个时间的报文就会被丢弃</p>
+<p>TCP报文头部有一个TTL, 每经过一个路由器就减一, 当TTL 为0时报文被丢弃,同时发送ICMP报文通知源主机</p>
+<p>所以MSL要大于等于TTL消耗为0的是时间</p>
+<p> <strong>2MSL时长这其实是相当于至少允许报文丢失一次</strong></p>
+<p>若 ACK 在一个 MSL 内丢失，这样被动方重发的 FIN 会在第 2 个 MSL 内到达，TIME_WAIT 状态的连接可以应对</p>
+<p><strong>我们假设连续两次丢包几乎不可能</strong></p>
+<p><code>2MSL</code> 的时间是从<strong>客户端接收到 FIN 后发送 ACK 开始计时的</strong>。如果在 TIME-WAIT 时间内，因为客户端的 ACK 没有传输到服务端，客户端又接收到了服务端重发的 FIN 报文，那么 <strong>2MSL 时间将重新计时</strong></p>
+<h3 id="为什么需要TIME-WAIT状态"><a href="#为什么需要TIME-WAIT状态" class="headerlink" title="为什么需要TIME_WAIT状态"></a>为什么需要TIME_WAIT状态</h3><h4 id="防止历史连接中的数据，被后面相同四元组的连接错误的接收"><a href="#防止历史连接中的数据，被后面相同四元组的连接错误的接收" class="headerlink" title="防止历史连接中的数据，被后面相同四元组的连接错误的接收"></a>防止历史连接中的数据，被后面相同四元组的连接错误的接收</h4><h5 id="序列号"><a href="#序列号" class="headerlink" title="序列号"></a>序列号</h5><p>为了保证消息的顺序性和可靠性，TCP 为每个传输方向上的每个字节都赋予了一个编号，以便于传输成功后确认、丢失后重传以及在接收端保证不会乱序</p>
+<p>序列号是一个 32 位的无符号数，因此在到达 4G 之后再循环回到 0</p>
+<h5 id="初始序列号"><a href="#初始序列号" class="headerlink" title="初始序列号"></a>初始序列号</h5><p>在 TCP 建立连接的时候，客户端和服务端都会各自生成一个初始序列号，它是基于时钟生成的一个随机数，来保证每个连接都拥有不同的初始序列号</p>
+<p>初始化序列号可被视为一个 32 位的计数器，该计数器的数值每 4 微秒加 1，循环一次需要 4.55 小时</p>
+<p><strong>序列号和初始化序列号并不是无限递增的，会发生回绕为初始值的情况，这意味着无法根据序列号来判断新老数据</strong></p>
+<p>为了防止历史连接中的数据，被后面相同四元组的连接错误的接收，因此 TCP 设计了 TIME_WAIT 状态，状态会持续 <code>2MSL</code> 时长，这个时间<strong>足以让两个方向上的数据包都被丢弃，使得原来连接的数据包在网络中都自然消失，再出现的数据包一定都是新建立连接所产生的</strong></p>
+<h4 id="保证-被动关闭连接-的一方，能被正确的关闭"><a href="#保证-被动关闭连接-的一方，能被正确的关闭" class="headerlink" title="保证 被动关闭连接 的一方，能被正确的关闭"></a>保证 被动关闭连接 的一方，能被正确的关闭</h4><p><strong>等待足够的时间以确保最后的 ACK 能让被动关闭方接收，从而帮助其正常关闭</strong></p>
+<p>如果没有TIME_WT这个状态，当FIN到达时，主动方会用RST来响应，在被动关闭的一方看来似乎是一个错误，实际上是正常的连接释放过程</p>
+<p>如果最后一次ACK报文丢掉了,服务器重传的FIN报文就不会被接受</p>
+<p>ACK时间+重传FIN时间&#x3D;2MSL</p>
+<h3 id="TIME-WAIT过多会怎么样"><a href="#TIME-WAIT过多会怎么样" class="headerlink" title="TIME_WAIT过多会怎么样"></a>TIME_WAIT过多会怎么样</h3><p>第一是占用系统资源</p>
+<p>第二是占用端口资源</p>
+<p><strong>如果客户端（主动发起关闭连接方）的 TIME_WAIT 状态过多</strong>，占满了所有端口资源，那么就无法对「目的 IP+ 目的 PORT」都一样的服务器发起连接了，但是被使用的端口，还是可以继续对另外一个服务器发起连接的</p>
+<p><strong>如果服务端（主动发起关闭连接方）的 TIME_WAIT 状态过多</strong>，并不会导致端口资源受限，因为服务端只监听一个端口，而且由于一个四元组唯一确定一个 TCP 连接，因此理论上服务端可以建立很多连接，但是 TCP 连接过多，会占用系统资源，比如文件描述符、内存资源、CPU 资源、线程资源等。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%AB%E8%82%A1/" class="category-chain-item">八股</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%BD%91/" class="print-no-link">#计网</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/30/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BB%8E%E8%BE%93%E5%85%A5-URL-%E5%BC%80%E5%A7%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%EF%BC%8C%E4%B8%AD%E9%97%B4%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" title="浏览器从输入 URL 开始到页面显示内容，中间发生了什么">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">浏览器从输入 URL 开始到页面显示内容，中间发生了什么</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/24/%E5%85%B3%E4%BA%8Eqt%E6%A7%BD%E5%87%BD%E6%95%B0/" title="关于qt槽函数">
+                        <span class="hidden-mobile">关于qt槽函数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

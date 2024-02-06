@@ -1,0 +1,600 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="c. 最大异或积最大异或积 贪心 开题的时候感觉可能是dp?(布吉岛是什么就试试dp)但推不出来式子,所以就从低到高暴力了一波,过了一大半测试点,后面一直在纠结是不是有特殊情况没有做特判,试图找到例子,原来思路从一开始就错了 这一题注意三点:  当ab某一位不同时,不论怎么处理,他们的和是一样的,此时需要缩小他们的差距,使乘积最大; 从高位到低位遍历找到a,b第一个不同的项i,如果a[i]&#x3D;1&amp;a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="力扣第372场周赛">
+<meta property="og:url" content="https://ergou0.github.io/2023/11/20/%E5%8A%9B%E6%89%A3%E7%AC%AC372%E5%9C%BA%E5%91%A8%E8%B5%9B/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="c. 最大异或积最大异或积 贪心 开题的时候感觉可能是dp?(布吉岛是什么就试试dp)但推不出来式子,所以就从低到高暴力了一波,过了一大半测试点,后面一直在纠结是不是有特殊情况没有做特判,试图找到例子,原来思路从一开始就错了 这一题注意三点:  当ab某一位不同时,不论怎么处理,他们的和是一样的,此时需要缩小他们的差距,使乘积最大; 从高位到低位遍历找到a,b第一个不同的项i,如果a[i]&#x3D;1&amp;a">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-20T10:18:48.000Z">
+<meta property="article:modified_time" content="2023-12-18T15:39:41.070Z">
+<meta property="article:author" content="liergou">
+<meta property="article:tag" content="力扣周赛">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>力扣第372场周赛 - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="力扣第372场周赛"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-20 18:18" pubdate>
+          2023年11月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          878 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">力扣第372场周赛</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="c-最大异或积"><a href="#c-最大异或积" class="headerlink" title="c. 最大异或积"></a>c. 最大异或积</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-xor-product/description/">最大异或积</a></p>
+<p><strong>贪心</strong></p>
+<p>开题的时候感觉可能是dp?(布吉岛是什么就试试dp)但推不出来式子,所以就从低到高暴力了一波,过了一大半测试点,后面一直在纠结是不是有特殊情况没有做特判,试图找到例子,原来思路从一开始就错了</p>
+<p>这一题注意三点:</p>
+<ol>
+<li>当ab某一位不同时,不论怎么处理,他们的和是一样的,此时需要缩小他们的差距,使乘积最大;</li>
+<li>从高位到低位遍历找到a,b第一个不同的项i,如果<code>a[i]=1&amp;&amp;b[i]=0</code>,那么后续不管怎么操作b一定小于a</li>
+<li>考虑n小于a,b位数的情况</li>
+</ol>
+<p><strong>注意n&#x3D;0时特判</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br><span class="hljs-type">const</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> mod =<span class="hljs-number">1e9</span>+<span class="hljs-number">7</span>;<br><span class="hljs-type">long</span> <span class="hljs-type">long</span> _set(<span class="hljs-type">long</span> <span class="hljs-type">long</span> num,<span class="hljs-type">long</span> <span class="hljs-type">long</span> i,<span class="hljs-type">bool</span> f)&#123;<br>    <span class="hljs-keyword">if</span>(f)&#123;<br>        <span class="hljs-keyword">if</span>(!(num&amp;i)) num|=i;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">if</span>(num&amp;i) num&amp;=~i;<br>    &#125;<br>    <span class="hljs-keyword">return</span> num;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">maximumXorProduct</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> a, <span class="hljs-type">long</span> <span class="hljs-type">long</span> b, <span class="hljs-type">int</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(n==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> (a^<span class="hljs-number">0</span>)%mod*((b^<span class="hljs-number">0</span>)%mod)%mod;<br>    <span class="hljs-type">long</span> <span class="hljs-type">long</span> i=<span class="hljs-number">1LL</span>&lt;&lt;(n<span class="hljs-number">-1</span>);<br>    <span class="hljs-keyword">for</span>(;i&gt;<span class="hljs-number">0</span>;i&gt;&gt;=<span class="hljs-number">1</span>)&#123;<br>        <span class="hljs-keyword">if</span>((a&amp;i) == (b&amp;i)) &#123;<br>            a = _set(a, i, <span class="hljs-number">1</span>);<br>            b = _set(b, i, <span class="hljs-number">1</span>);<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">if</span>(a&gt;b)&#123;<br>                a=_set(a,i,<span class="hljs-number">0</span>);<br>                b=_set(b,i,<span class="hljs-number">1</span>);<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                a=_set(a,i,<span class="hljs-number">1</span>);<br>                b=_set(b,i,<span class="hljs-number">0</span>);<br>            &#125;<br>            <span class="hljs-keyword">if</span>(a&gt;b) <span class="hljs-built_in">swap</span>(a,b);<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(i&gt;&gt;=<span class="hljs-number">1</span>;i&gt;<span class="hljs-number">0</span>;i&gt;&gt;=<span class="hljs-number">1</span>)&#123;<br>        <span class="hljs-keyword">if</span>((a&amp;i)==(b&amp;i))&#123;<br>            a = _set(a, i, <span class="hljs-number">1</span>);<br>            b = _set(b, i, <span class="hljs-number">1</span>);<br>        &#125; <span class="hljs-keyword">else</span>&#123;<br>            a=_set(a,i,<span class="hljs-number">1</span>);<br>            b=_set(b,i,<span class="hljs-number">0</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> (a%mod)*(b%mod)%mod;<br>&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>补一下:</p>
+<p>摸鱼的时候去看了题解,发现对于<code>a,b的位数&gt;=n</code>的时候有更好的解决方案(笨比是两种都试一下,因为最高可修改位只有0,1的枚举值,所以直接算两种方案比大小就可以了)</p>
+<p>其实可以直接比较a,b高位,然后把1全部分配给小的那个~</p>
+<h1 id="d-找到-Alice-和-Bob-可以相遇的建筑"><a href="#d-找到-Alice-和-Bob-可以相遇的建筑" class="headerlink" title="d.找到 Alice 和 Bob 可以相遇的建筑"></a>d.找到 Alice 和 Bob 可以相遇的建筑</h1><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-building-where-alice-and-bob-can-meet/">找到 Alice 和 Bob 可以相遇的建筑</a></p>
+<p>题目需要翻译一下:</p>
+<p>a&#x3D;b意味着两人在同一位置,那么不需要操作;</p>
+<p>假设 a&lt;b 且h[a]&lt;h[b], 那么A可以一步到B;</p>
+<p>这时需要考虑 a&lt;b 且 h[a]&gt;h[b] 的情况: 这时需要查找b点右侧的点x, <code>h[x]&gt;max(h[a],h[b])=h[a]</code></p>
+<p>此时采用离线做法,在每个b点下记录对应的a点,从左到右遍历h数组,若<code>当前高度h[i] &gt; 前面的询问h[j]</code>则<code>ans[j]=i</code></p>
+<p>使用最小堆维护当前询问,遍历到i时将i点的询问数据加入到堆中,再进行询问即可</p>
+<p>代码如下:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">no</span>&#123;    <br>    <span class="hljs-type">int</span> ask,y;<br>&#125;;<br><span class="hljs-keyword">struct</span> <span class="hljs-title class_">cmp</span>&#123;<br>    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(no &amp; a,no&amp; b)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> a.ask &gt; b.ask;<br>    &#125;<br>&#125;;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    vector&lt;no&gt; q[<span class="hljs-number">50005</span>];<br>    priority_queue &lt;no,vector&lt;no&gt;, cmp &gt; qq;    <br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">leftmostBuildingQueries</span><span class="hljs-params">(vector&lt;<span class="hljs-type">int</span>&gt;&amp; heights, vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt;&amp; queries)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(queries.size(),<span class="hljs-number">-1</span>)</span></span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;queries.<span class="hljs-built_in">size</span>();i++)&#123;<br>            <span class="hljs-keyword">if</span>(queries[i][<span class="hljs-number">0</span>]==queries[i][<span class="hljs-number">1</span>])&#123;<br>                ans[i]=queries[i][<span class="hljs-number">0</span>];<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <span class="hljs-keyword">if</span>(queries[i][<span class="hljs-number">0</span>]&gt;queries[i][<span class="hljs-number">1</span>]) <span class="hljs-built_in">swap</span>(queries[i][<span class="hljs-number">0</span>],queries[i][<span class="hljs-number">1</span>]);<br>            <span class="hljs-keyword">if</span>(heights[queries[i][<span class="hljs-number">0</span>]]&lt;heights[queries[i][<span class="hljs-number">1</span>]])&#123;<br>                ans[i]=queries[i][<span class="hljs-number">1</span>];<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            q[queries[i][<span class="hljs-number">1</span>]].<span class="hljs-built_in">push_back</span>(&#123;heights[queries[i][<span class="hljs-number">0</span>]],i&#125;);<br>        &#125;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;heights.<span class="hljs-built_in">size</span>();i++)&#123;<br>            <span class="hljs-keyword">while</span>(!qq.<span class="hljs-built_in">empty</span>())&#123;<br>                <span class="hljs-keyword">if</span>(qq.<span class="hljs-built_in">top</span>().ask&lt;heights[i])&#123;<br>                    ans[qq.<span class="hljs-built_in">top</span>().y]=i;<br>                    qq.<span class="hljs-built_in">pop</span>();<br>                &#125;<span class="hljs-keyword">else</span>&#123;<span class="hljs-keyword">break</span>;&#125;<br>                <br>            &#125;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> &amp;j:q[i]) qq.<span class="hljs-built_in">push</span>(j);<br>        &#125;<br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>还有线段树做法,以后再说以后再说…</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8A%9B%E6%89%A3%E5%91%A8%E8%B5%9B/" class="print-no-link">#力扣周赛</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/12/19/%E5%8A%9B%E6%89%A3%E7%AC%AC118%E5%9C%BA%E5%8F%8C%E5%91%A8%E8%B5%9B/" title="力扣第118场双周赛">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">力扣第118场双周赛</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/10/%E5%85%B3%E4%BA%8E-sync/" title="关于.sync">
+                        <span class="hidden-mobile">关于.sync</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

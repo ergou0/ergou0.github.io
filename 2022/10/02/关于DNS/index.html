@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="对于 计算机网络-自顶向下的方法 的读书笔记 怎样标识一台主机主机的一种标识方法为他的主机名, 如 www.baidu.com 使用主机名的一个优点就是便于记忆 但更多的是他的缺点: 主机名几乎没有提供关于主机在因特网中的位置信息 主机名可能由不定长的数字和字母组成, 路由器难以处理 所以主机也可以用IP地址进行标识 IP地址具有层次结构,从左至右扫描它时,  会得到越来越多主机在因特网中的位置信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于DNS">
+<meta property="og:url" content="https://ergou0.github.io/2022/10/02/%E5%85%B3%E4%BA%8EDNS/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="对于 计算机网络-自顶向下的方法 的读书笔记 怎样标识一台主机主机的一种标识方法为他的主机名, 如 www.baidu.com 使用主机名的一个优点就是便于记忆 但更多的是他的缺点: 主机名几乎没有提供关于主机在因特网中的位置信息 主机名可能由不定长的数字和字母组成, 路由器难以处理 所以主机也可以用IP地址进行标识 IP地址具有层次结构,从左至右扫描它时,  会得到越来越多主机在因特网中的位置信">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-02T07:38:42.000Z">
+<meta property="article:modified_time" content="2022-10-04T13:06:10.638Z">
+<meta property="article:author" content="liergou">
+<meta property="article:tag" content="计网">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>关于DNS - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="关于DNS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-02 15:38" pubdate>
+          2022年10月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">关于DNS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>对于 <code>计算机网络-自顶向下的方法</code> 的读书笔记</p>
+<h2 id="怎样标识一台主机"><a href="#怎样标识一台主机" class="headerlink" title="怎样标识一台主机"></a>怎样标识一台主机</h2><p>主机的一种标识方法为他的主机名, 如 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></p>
+<p>使用主机名的一个优点就是便于记忆</p>
+<p>但更多的是他的缺点:</p>
+<p>主机名几乎没有提供关于主机在因特网中的位置信息</p>
+<p>主机名可能由不定长的数字和字母组成, 路由器难以处理</p>
+<p>所以主机也可以用IP地址进行标识</p>
+<p>IP地址具有层次结构,从左至右扫描它时,  会得到越来越多主机在因特网中的位置信息</p>
+<h2 id="关于DNS"><a href="#关于DNS" class="headerlink" title="关于DNS"></a>关于DNS</h2><p>域名系统(Domain Name System)</p>
+<p>是一个由<strong>分层的DNS服务器实现的分布式数据库</strong></p>
+<p>一个使得主机能够查询分布式数据库的应用层协议</p>
+<p><strong>DNS协议运行在UDP上, 使用53号端口</strong></p>
+<h2 id="DNS提供的服务"><a href="#DNS提供的服务" class="headerlink" title="DNS提供的服务"></a>DNS提供的服务</h2><p><strong>主机名到IP地址转换</strong> </p>
+<p><strong>主机别名</strong></p>
+<p>有复杂主机名的主机可以有一个或多个别名, 别名比规范主机名要更加容易记忆, 应用程序可以调用DNS来获得主机别名对应的规范主机名和主机的IP地址</p>
+<p><strong>邮件服务器别名</strong></p>
+<p>电子邮件应用程序可以调用DNS, 对提供的主机别名进行解析, 获得主机别名对应的规范主机名和主机的IP地址</p>
+<p>MS记录允许一个公司的邮件服务器和Web服务器使用相同 (别名化) 的主机名 </p>
+<p><strong>负载分配</strong></p>
+<p>繁忙的站点会被冗余分布在多个服务器上, 每台服务器均运行在不同的端系统上, 每个都有不同的IP地址</p>
+<p>所以<strong>一个IP地址集合与同一个规范主机名相联系</strong></p>
+<p>DNS数据库中存储着这些IP地址集合</p>
+<p>每次域名解析请求都会根据对应的负载均衡算法计算出一个不同的IP地址并返回,以实现负载均衡</p>
+<h3 id="负载均衡的优缺点"><a href="#负载均衡的优缺点" class="headerlink" title="负载均衡的优缺点"></a>负载均衡的优缺点</h3><p>优点<br>就近访问，提升访问速度：DNS解析时可以根据请求来源IP，解析成距离用户最近的服务器地址，可以加快访问速度，从而到达改善性能</p>
+<p>缺点<br>更新不及时：DNS缓存的时间比较长，修改DNS陪之后，由于缓存的原因，会导致部分用户还会继续访问修改之前的地址，毫无疑问这样的访问会失败的，不仅达不到负载均衡的效果，更严重的是用户不能正常使用</p>
+<p>扩展性差：DNS负载均衡的控制权限不是使用者的，而是域名商那里，无法根据业务特点针对性做一些定制化功能，更别提扩展性了</p>
+<p>分配策略比较简单：DNS负载均衡支持的算法不多，不能区分服务器的差异，也无法感知后端服务的状态</p>
+<p>针对以上DNS的优缺点，也有部分公司自己实现了HTTP-DNS，即使使用HTTP协议实现一个私有的DNS系统，但是其实和上面的DNS优缺点刚刚相反</p>
+<h2 id="DNS工作机理"><a href="#DNS工作机理" class="headerlink" title="DNS工作机理"></a>DNS工作机理</h2><p>对于调用DNS客户端的程序而言, DNS是一个黑盒子</p>
+<p>程序需要将主机名转换成IP地址</p>
+<p>调用DNS客户端,指名需要被转换的主机名</p>
+<p>用户机上的DNS收到后, 向网络中发送一个DNS查询报文 <strong>所有的DNS请求和回答报文使用UDP数据报经端口53发送</strong></p>
+<p>用户主机上的DNS接受到一个提供所希望的映射的DNS回答报文</p>
+<p>这个映射结果被传到调用DNS的程序</p>
+<h3 id="集中式"><a href="#集中式" class="headerlink" title="集中式"></a>集中式</h3><p>在因特网上只使用一个DNS服务器, 处理所有的请求</p>
+<p>这显然是不可能的</p>
+<p><strong>单点故障</strong> 这个服务器寄了因特网就没了</p>
+<p><strong>通信容量</strong> 不能同时处理大量查询</p>
+<p><strong>远距离的集中式数据库</strong> 由于距离远,会造成网络拥堵问题</p>
+<p><strong>维护开销</strong> 维护困难</p>
+<h3 id="分布式层次数据库"><a href="#分布式层次数据库" class="headerlink" title="分布式层次数据库"></a>分布式层次数据库</h3><p>DNS使用了大量服务器,以层次方式阻止,分布在全世界范围内</p>
+<p>大体上有三种类型的服务器:根DNS服务器, 顶级域DNS服务器, 权威DNS服务器</p>
+<p>根服务器提供TLD服务器的IP地址,TLD服务器提供权威DNS服务器的IP地址</p>
+<p><strong>域与物理网络无关</strong></p>
+<p>域遵从组织界限，而不是物理网络</p>
+<p>一个域的主机可以不在一个网络,一个网络的主机不一定在一个域</p>
+<p>域的划分是逻辑的，而不是物理的</p>
+<h4 id="根DNS服务器"><a href="#根DNS服务器" class="headerlink" title="根DNS服务器"></a>根DNS服务器</h4><p>由13个不同组织管理,没有一个在CN</p>
+<h4 id="顶级域DNS服务器"><a href="#顶级域DNS服务器" class="headerlink" title="顶级域DNS服务器"></a>顶级域DNS服务器</h4><p>对于每个顶级域和所有国家的顶级域都有TLD服务器(或服务器集群)</p>
+<h4 id="权威DNS服务器"><a href="#权威DNS服务器" class="headerlink" title="权威DNS服务器"></a>权威DNS服务器</h4><p>在因特网上具有公共可访问主机的每个组织机构必须提供公共可访问的DNS记录,这些记录将这些主机名字映射为IP地址, 一个组织机构的权威DNS服务器收藏了这些DNS记录</p>
+<h4 id="本地名字服务器（Local-Name-Server"><a href="#本地名字服务器（Local-Name-Server" class="headerlink" title="本地名字服务器（Local Name Server)"></a>本地名字服务器（Local Name Server)</h4><p>并不严格属于层次结构</p>
+<p>每个ISP都有一个本地DNS服务器,也称 “默认名字服务器”</p>
+<p>当一个主机发起一个DNS查询时，查询被送到其本地DNS服务器 </p>
+<p>起着代理的作用，将查询转发到层次结构中</p>
+<p>主机的本地DNS通常 “临近” 本主机</p>
+<h3 id="迭代查询和递归查询"><a href="#迭代查询和递归查询" class="headerlink" title="迭代查询和递归查询"></a>迭代查询和递归查询</h3>
+
+
+
+<p><strong>一些奇奇怪怪的东西, 先丢这里, 还不知道怎么整理</strong></p>
+<p>权威DNS：</p>
+<p>权威DNS是经过上一级授权对域名进行解析的服务器，同时它可以把解析授权转授给其他人，如COM顶级服务器可以授权dns.com这个域名的的权威服务器为NS.ABC.COM，同时NS.ABC.COM还可以把授权转授给NS.DDD.COM，这样NS.DDD.COM就成了ABC.COM实际上的权威服务器了。平时我们解析域名的结果都源自权威DNS。比如dns.com的权威DNS服务器就是帝恩思的ns1.dns.com ns2.dns.com</p>
+<p>递归DNS:</p>
+<p>负责接受用户对任意域名查询，并返回结果给用户。递归DNS可以缓存结果以避免重复向上查询。我们平时使用最多的就是这类DNS，他对公众开放服务，一般由网络运营商提供，大家都自己可以架递归DNS提供服务。递归DNS一定要有可靠的互联网连接方可使用。比如谷歌的8.8.8.8和8.8.4.4以及114的114.114.114.114和114.114.115.115都属于这一类DNS。你本地电脑上设置的DNS就是这类DNS</p>
+<p>转发DNS:</p>
+<p>负责接受用户查询，并返回结果给用户。但这个结果不是按标准的域名解析过程得到的，而是直接把递归DNS的结果转发给用户。它也具备缓存功能。他主要使用在没有直接的互联网连接，但可以连接到一个递归DNS那里，这时使用转发DNS就比较合适。其缺陷是：直接受递归DNS的影响，服务品质较差。比如我们用的路由器里面的DNS就是这一类，用路由器的朋友可以看下本地电脑的DNS一般都是192.168.1.1</p>
+<p>1.递归服务器怎么知道根权威服务器的地址？</p>
+<p>很简单，在递归服务器上都保存有一份根服务器的地址列表。最新的根服务器地址列表在这里可以得到：<a href="ftp://ftp.internic.net/domain/named.root">ftp://ftp.internic.net/domain/named.root</a></p>
+<p>2.递归服务器每次查询域名都要向根那里找权威服务器吗？</p>
+<p>不是的，一旦成功一次，递归服务器就会把权威服务器列表缓存下来（如COM顶级服务器列表可以缓存48小时）。</p>
+<p>3.这些DNS都是什么人在管理？</p>
+<p>本地递归服务器一般由电信运营商架设，服务于自己的用户，并有其管理，自然人也架设。根服务器与顶级域服务器由国际组织统一部署管理（实际控制器在美国政府）。对顶级域服务器来说销售商有可控的写入权。</p>
+<h3 id="DNS缓存"><a href="#DNS缓存" class="headerlink" title="DNS缓存"></a>DNS缓存</h3><p>为了<strong>改善延时性能</strong>并且<strong>减少在因特网上到处传输的DNS报文数量</strong>, DNS广泛地使用了缓存技术</p>
+<h4 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h4><p>在一个请求链中, 当某DNS服务器接收一个DNS回答时, 它能将映射缓存在本地存储器中</p>
+<p>如果在DNS服务器中缓存了一台主机名&#x2F;IP地址对, 另一个对相同主机名的查询到达该DNS服务器时, 该DNS服务器就能够提供所要求的IP地址, 即使他不是该主机名的权威服务器</p>
+<p>由于主机和主机名与Ip地址间的映射不是永久的, DNS服务器在一段时间后 ( 通常为两天 )将丢弃缓存的信息</p>
+<h2 id="DNS记录和报文"><a href="#DNS记录和报文" class="headerlink" title="DNS记录和报文"></a>DNS记录和报文</h2><p>共同实现DNS分布式数据库的所有DNS服务器存储了资源记录 (RR), RR提供了主机名到IP地址的映射</p>
+<p>每个DNS回答报文包含了一条或多条资源记录</p>
+<h3 id="资源记录"><a href="#资源记录" class="headerlink" title="资源记录"></a>资源记录</h3><p>(Name, Value, Type, TTL)</p>
+<p>TTL是该记录的生存时间, 他决定了资源记录应当从缓存中删除的时间</p>
+<p>Name和Vale的值取决于Type</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Name</th>
+<th align="center">Value</th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Type&#x3D;A</td>
+<td align="center">主机名</td>
+<td align="center">该主机名对应的IP地址</td>
+<td align="center">一条类型为A的资源记录提供了标准的主机名到IP地址的映射</td>
+</tr>
+<tr>
+<td align="center">Type&#x3D;NS</td>
+<td align="center">域</td>
+<td align="center">知道如何获取该域中主机IP地址的权威DNS服务器的主机名</td>
+<td align="center">用于沿着查询链来路由DNS查询</td>
+</tr>
+<tr>
+<td align="center">Type&#x3D;CNAME</td>
+<td align="center"></td>
+<td align="center">别名为Name的主机对应的规范主机名</td>
+<td align="center">向查询的主机提供一个主机名对应的规范主机名</td>
+</tr>
+<tr>
+<td align="center">Type&#x3D;MX</td>
+<td align="center"></td>
+<td align="center">别名为Name的邮件服务器的规范主机名</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>MX记录允许邮件服务器主机名具有简单的别名</p>
+<p>为了获得邮件服务器的主机名, DNS客户端应当请求一条MX记录</p>
+<p>为了获得其他服务器的规范主机名, DNS客户端应当请求CNAME记录</p>
+
+
+
+
+
+
+<h3 id="DNS报文"><a href="#DNS报文" class="headerlink" title="DNS报文"></a>DNS报文</h3><p>DNS只有两种报文, 查询报文和回答报文, 这两种报文有着相同的格式</p>
+
+
+
+
+<h4 id="前12个字节是部首区域"><a href="#前12个字节是部首区域" class="headerlink" title="前12个字节是部首区域"></a>前12个字节是部首区域</h4><h5 id="标志符"><a href="#标志符" class="headerlink" title="标志符"></a>标志符</h5><p>16比特,用于标志查询, 会被复制到对查询的回答报文中, 以便客户端匹配发送的请求和接受到的回答</p>
+<h5 id="标志字段"><a href="#标志字段" class="headerlink" title="标志字段"></a>标志字段</h5><p>有很多东西</p>
+<h6 id="查询-回答标志位"><a href="#查询-回答标志位" class="headerlink" title="查询&#x2F;回答标志位"></a>查询&#x2F;回答标志位</h6><p>表示是回答报文(1) 还是查询报文(0)</p>
+<h6 id="权威标志位"><a href="#权威标志位" class="headerlink" title="权威标志位"></a>权威标志位</h6><p>当所请求的是权威服务器时, 回答报文中该位会置为1</p>
+<h6 id="希望递归标志位"><a href="#希望递归标志位" class="headerlink" title="希望递归标志位"></a>希望递归标志位</h6><p>在该DNS服务器没有记录时希望进行递归查询时该位置1</p>
+<h6 id="递归可用标志位"><a href="#递归可用标志位" class="headerlink" title="递归可用标志位"></a>递归可用标志位</h6><p>回答希望递归时,如果该服务器支持递归查询, 则置1</p>
+<h5 id="问题区域"><a href="#问题区域" class="headerlink" title="问题区域"></a>问题区域</h5><p>包含正在进行查询的信息</p>
+<p>名字字段</p>
+<p>类型字段</p>
+<h5 id="回答区域"><a href="#回答区域" class="headerlink" title="回答区域"></a>回答区域</h5><p>对最初请求名字的记录</p>
+<h5 id="权威区域"><a href="#权威区域" class="headerlink" title="权威区域"></a>权威区域</h5><p>其他权威服务器的记录</p>
+<h5 id="附加区域"><a href="#附加区域" class="headerlink" title="附加区域"></a>附加区域</h5><p>其他有帮助的信息</p>
+<p>在命令行中输入nslookup可以发送DNS查询报文</p>
+
+
+
+
+
+
+<h3 id="在DNS数据库中插入记录"><a href="#在DNS数据库中插入记录" class="headerlink" title="在DNS数据库中插入记录"></a>在DNS数据库中插入记录</h3><p>在网上扒了张图,字真好看</p>
+<p>5096</p>
+<h2 id="DNS脆弱性"><a href="#DNS脆弱性" class="headerlink" title="DNS脆弱性"></a>DNS脆弱性</h2><p>这一块是拼凑出来的, 我尽量让他看起来不那么乱</p>
+<h3 id="分布式拒绝服务带宽洪泛攻击"><a href="#分布式拒绝服务带宽洪泛攻击" class="headerlink" title="分布式拒绝服务带宽洪泛攻击"></a>分布式拒绝服务带宽洪泛攻击</h3><p>向每个DNS跟服务器发送大量分组, 使得大多数合法的DNS请求得不到回答</p>
+<p>有分组过滤器的保护, 大多数本地DNS服务器缓存了顶级域名服务器的IP地址</p>
+<p>向顶级域名服务器发送大量DNS请求 -&gt; DNS缓存技术</p>
+<h3 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h3><p>截获来自主机的请求并返回伪造的回答</p>
+<h3 id="DNS毒害攻击"><a href="#DNS毒害攻击" class="headerlink" title="DNS毒害攻击"></a>DNS毒害攻击</h3><p>向一台DNS服务器发送伪造的回答,诱使服务器在它的缓存中接收伪造的记录</p>
+<p>要求截获分组或遏制住服务器</p>
+<p>还有就是控制注册域名用的邮箱, 修改域名绑定的IP</p>
+<h3 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h3><p>攻击者一般是修改了本地路由器的DNS地址，从而访问了一个伪造的DNS服务器</p>
+<h2 id="用户端预防DNS攻击"><a href="#用户端预防DNS攻击" class="headerlink" title="用户端预防DNS攻击"></a>用户端预防DNS攻击</h2><p>直接通过 IP 地址访问网站，避开 DNS 劫持。<br>由于域名劫持往往只能在特定的网络范围内进行，因此一些高级用户可以通过网络设置让 DNS 指向正常的域名服务器以实现对目的网址的正常访问，例如将计算机首选 DNS 服务器的地址固定为 8.8.8.8</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%BD%91/" class="print-no-link">#计网</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/05/%E5%85%B3%E4%BA%8Esocket%E7%BC%96%E7%A8%8B/" title="关于socket编程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于socket编程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/30/%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BB%8E%E8%BE%93%E5%85%A5-URL-%E5%BC%80%E5%A7%8B%E5%88%B0%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%EF%BC%8C%E4%B8%AD%E9%97%B4%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/" title="浏览器从输入 URL 开始到页面显示内容，中间发生了什么">
+                        <span class="hidden-mobile">浏览器从输入 URL 开始到页面显示内容，中间发生了什么</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

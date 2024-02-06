@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="某次面试 -数据结构怎么样 -emmm,还行吧 -讲讲红黑树吧 -寄 只会对着板子抄线段树QAQ 总结一下二叉树相关吧 二叉排序树 (二叉搜索树&#x2F;BST)左子树的所有节点 &lt; 根节点 &lt; 右子树的所有节点 ( ls_max &lt; r &lt; rs_min ) 它的左右子树也分别为二叉搜索树 没有相同的值 二叉搜索树的插入空树，就首先生成根节点； 不是空树就按照查找的算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于树">
+<meta property="og:url" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="某次面试 -数据结构怎么样 -emmm,还行吧 -讲讲红黑树吧 -寄 只会对着板子抄线段树QAQ 总结一下二叉树相关吧 二叉排序树 (二叉搜索树&#x2F;BST)左子树的所有节点 &lt; 根节点 &lt; 右子树的所有节点 ( ls_max &lt; r &lt; rs_min ) 它的左右子树也分别为二叉搜索树 没有相同的值 二叉搜索树的插入空树，就首先生成根节点； 不是空树就按照查找的算法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918171608352.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918172101889.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918172300705.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918172506128.png">
+<meta property="og:image" content="https://ergou0.github.io/%E5%85%B3%E4%BA%8E%E6%A0%91/70">
+<meta property="og:image" content="https://ergou0.github.io/%E5%85%B3%E4%BA%8E%E6%A0%91/71">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200009070.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200045913.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200329007.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200826766.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201508730.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201558230.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201928419.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918202132662.png">
+<meta property="og:image" content="https://ergou0.github.io/%E5%85%B3%E4%BA%8E%E6%A0%91/1111">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028224316039.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028224510848.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225002044.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225528332.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225758682.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225324026.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225444298.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195316556.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195537611.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195903141.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200010860.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200049583.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200254375.png">
+<meta property="article:published_time" content="2022-09-17T12:39:23.000Z">
+<meta property="article:modified_time" content="2023-01-24T12:36:48.003Z">
+<meta property="article:author" content="liergou">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ergou0.github.io/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918171608352.png">
+  
+  
+  
+  <title>关于树 - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="关于树"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-17 20:39" pubdate>
+          2022年9月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">关于树</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>某次面试</p>
+<p>-数据结构怎么样</p>
+<p>-emmm,还行吧</p>
+<p>-讲讲红黑树吧</p>
+<p>-寄</p>
+<p>只会对着板子抄线段树QAQ</p>
+<p>总结一下二叉树相关吧</p>
+<h2 id="二叉排序树-二叉搜索树-BST"><a href="#二叉排序树-二叉搜索树-BST" class="headerlink" title="二叉排序树 (二叉搜索树&#x2F;BST)"></a>二叉排序树 (二叉搜索树&#x2F;BST)</h2><p>左子树的所有节点 &lt; 根节点 &lt; 右子树的所有节点 ( ls_max &lt; r &lt; rs_min )</p>
+<p>它的左右子树也分别为二叉搜索树</p>
+<p><strong>没有相同的值</strong></p>
+<h3 id="二叉搜索树的插入"><a href="#二叉搜索树的插入" class="headerlink" title="二叉搜索树的插入"></a>二叉搜索树的插入</h3><p>空树，就首先生成根节点；</p>
+<p>不是空树就按照查找的算法，找到父节点，然后作为叶子节点插入，如果值已经存在就插入失败</p>
+<h3 id="二叉搜索树的删除"><a href="#二叉搜索树的删除" class="headerlink" title="二叉搜索树的删除"></a>二叉搜索树的删除</h3><p>如果删除的是叶节点，可以直接删除</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918171608352.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918171608352">
+
+<p>如果被删除的元素有一个子节点，可以将子节点直接移到被删除元素的位置</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918172101889.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918172101889">
+
+<p>如果有两个子节点，这时候就采用中序遍历，找到待删除的节点的后继节点(或前驱节点)，将其与待删除的节点互换，此时待删除节点的位置已经是叶子节点，可以直接删除</p>
+<p><img src="关于树/image-20220918172300705.png" srcset="/img/loading.gif" lazyload alt="image-20220918172300705" style="zoom:50%;" />|<img src="关于树/image-20220918172506128.png" srcset="/img/loading.gif" lazyload alt="image-20220918172506128" style="zoom:50%;" /></p>
+<p>插入删除复杂度</p>
+<p>平均复杂度 $log_2N$</p>
+<p>最坏情况: n ( 单链)</p>
+<p><strong>二叉搜索树的中序遍历为从小到大排序结果</strong></p>
+<h3 id="哈希表与二叉查找树"><a href="#哈希表与二叉查找树" class="headerlink" title="哈希表与二叉查找树"></a>哈希表与二叉查找树</h3><p> 哈希表中的数据是无序存储的，如果要输出有序数据序列，需要先进行排序，或者配合有序链表来使用。而对于二叉查找树，我们只需要进行中序遍历，就可以在O(n)的时间复杂度内，输出有序数据序列。</p>
+<p>哈希表扩容耗时很多，而且当遇到哈希冲突时，性能不稳定。而对于二叉查找树，如果用平衡二叉树就非常稳定，时间复杂度稳定在O(logn)</p>
+<p>O(logn)的算法并不一定比O(1)的算法运行速度慢。尽管哈希表上操作的时间复杂度是常量级的，但因为哈希冲突的存在，再加上哈希函数的计算耗时，哈希表并不一定就比平衡二叉树效率高。</p>
+<p>哈希表的构造比二叉查找树复杂，需要考虑的东西很多，如哈希函数的设计、冲突解决方法、扩容和缩容等。平衡二叉树只需要考虑如何维护平衡性</p>
+<h2 id="平衡二叉树-AVL树"><a href="#平衡二叉树-AVL树" class="headerlink" title="平衡二叉树 (AVL树)"></a>平衡二叉树 (AVL树)</h2><p><strong>在二叉排序树的基础上</strong>,有</p>
+<p>左子树和右子树的高度之差的绝对值小于等于1</p>
+<p>左子树和右子树也是平衡二叉树</p>
+<p>为了方便起见，给树上的每个结点附加一个数字，给出该结点左子树与右子树的高度差，这个数字称为结点的<strong>平衡因子</strong>（BF）</p>
+<p>平衡因子&#x3D;结点左子树的高度-结点右子树的高度</p>
+<p>平衡因子 &#x3D; {-1,0,1}</p>
+<h3 id="为什么会有平衡二叉树"><a href="#为什么会有平衡二叉树" class="headerlink" title="为什么会有平衡二叉树"></a>为什么会有平衡二叉树</h3><p>因为二叉排序树在某些情况下的效率会达到 $o(n)$ ,这明显不是我们想要的结果 (链表不爽啊吗)</p>
+<p>有了|BF| &lt;&#x3D; 1这个限制条件以后,就可以将复杂度控制在 $log_2N$ 左右了</p>
+<h3 id="左旋和右旋"><a href="#左旋和右旋" class="headerlink" title="左旋和右旋"></a>左旋和右旋</h3><p><img src="/%E5%85%B3%E4%BA%8E%E6%A0%91/70" srcset="/img/loading.gif" lazyload alt="左旋">|<img src="/%E5%85%B3%E4%BA%8E%E6%A0%91/71" srcset="/img/loading.gif" lazyload alt="右旋"></p>
+<h4 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h4><p>右儿子变父亲</p>
+<p>右儿子的左子树变父亲的右子树</p>
+<h4 id="右旋"><a href="#右旋" class="headerlink" title="右旋"></a>右旋</h4><p>左儿子变父亲</p>
+<p>左儿子的右子树变左子树</p>
+<h3 id="平衡二叉树插入和调整"><a href="#平衡二叉树插入和调整" class="headerlink" title="平衡二叉树插入和调整"></a>平衡二叉树插入和调整</h3><h4 id="四种失衡类型"><a href="#四种失衡类型" class="headerlink" title="四种失衡类型"></a>四种失衡类型</h4><p>失衡是相对于平衡而言的,在插入新的节点后,会导致新树在原来的基础上失衡,这时就需要调整了</p>
+<p><strong>找最小的失衡子树的根节点作为失衡结点</strong></p>
+<p>最小失衡子树:距离插入节点最近的，且平衡因子的绝对值大于1的节点为根的子树</p>
+<h5 id="LL"><a href="#LL" class="headerlink" title="LL"></a>LL</h5><p>在原来平衡的二叉树上，在<strong>节点的左子树的左子树下</strong>插入节点导致失衡</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200009070.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918200009070">
+
+<p>对节点进行右旋</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200045913.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918200045913">
+
+
+
+
+
+<h5 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h5><p>原来平衡的二叉树上，在<strong>节点的左子树的右子树下</strong>插入节点导致失衡</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200329007.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918200329007">
+
+
+
+<p>先对左儿子进行左旋,这时树就变为LL,然后对节点进行右旋</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918200826766.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918200826766">
+
+<h5 id="RR"><a href="#RR" class="headerlink" title="RR"></a>RR</h5><p>在原来平衡的二叉树上，在<strong>节点的右子树的右子树</strong>下插入节点导致的失衡</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201508730.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918201508730">
+
+<p>对节点进行左旋</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201558230.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918201558230">
+
+<h5 id="RL"><a href="#RL" class="headerlink" title="RL"></a>RL</h5><p>在原来平衡的二叉树上，在<strong>节点的右子树的左子树</strong>下插入节点导致的失衡</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918201928419.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918201928419">
+
+<p>先对右节点进行右旋,这时变为RR,再对节点左旋</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20220918202132662.png" srcset="/img/loading.gif" lazyload class="" alt="image-20220918202132662">
+
+
+
+<h3 id="平衡二叉树删除节点"><a href="#平衡二叉树删除节点" class="headerlink" title="平衡二叉树删除节点"></a>平衡二叉树删除节点</h3><p>删除的步骤跟二叉排序树的删除差不多,删完后不断向上检查是否失衡,失衡就调整,直到根节点</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>红黑树是一种特化的AVL树</p>
+<p>与AVL树相比，红黑树牺牲了部分平衡性，以换取插入&#x2F;删除操作时<strong>较少的旋转</strong>操作，整体来说性能要优于AVL树</p>
+<p><strong>红黑树通过变色和旋转来维护</strong></p>
+<h3 id="红黑树特征"><a href="#红黑树特征" class="headerlink" title="红黑树特征"></a>红黑树特征</h3><p>5大特征:</p>
+<p>每个节点不是黑色就是红色</p>
+<p>根节点为黑色</p>
+<p>红色节点的父节点和子节点不能为红色 (不能有相邻的红色节点)</p>
+<p>所有的叶子节点 (最底层不存放数据的节点) 都是黑色, 且为空</p>
+<p>每个节点到叶子节点的每个路径黑色节点的个数都相等</p>
+<h3 id="为什么会有红黑树"><a href="#为什么会有红黑树" class="headerlink" title="为什么会有红黑树"></a>为什么会有红黑树</h3><p>AVL的左右子树高度差不能超过1，每次进行插入&#x2F;删除操作时，几乎都需要通过旋转操作保持平衡<br><strong>在频繁进行插入&#x2F;删除的场景中，频繁的旋转操作使得AVL的性能大打折扣</strong><br>红黑树通过牺牲严格的平衡，换取插入&#x2F;删除时少量的旋转操作，整体性能优于AVL<br>红黑树插入时的不平衡，不超过两次旋转就可以解决；删除时的不平衡，不超过三次旋转就能解决<br>红黑树的红黑规则，<strong>保证最坏的情况下，也能在 $o(log_2N)$ 时间内完成查找操作</strong></p>
+<h3 id="红黑树和AVL树"><a href="#红黑树和AVL树" class="headerlink" title="红黑树和AVL树"></a>红黑树和AVL树</h3><p>AVL树的查找效率更高, 但平衡调整的成本也更高</p>
+<p>在需要频繁查找时, 选用AVL树</p>
+<p>在需要频繁插入删除时,选择红黑树</p>
+<h3 id="红黑树的维护"><a href="#红黑树的维护" class="headerlink" title="红黑树的维护"></a>红黑树的维护</h3><h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4><p><strong>插入节点默认为红色</strong></p>
+<h5 id="插入节点为根节点"><a href="#插入节点为根节点" class="headerlink" title="插入节点为根节点"></a>插入节点为根节点</h5><p>将节点变为黑色</p>
+<p><img src="/%E5%85%B3%E4%BA%8E%E6%A0%91/1111" srcset="/img/loading.gif" lazyload alt="image-20221028224228266"></p>
+<h5 id="插入节点的父节点为黑色"><a href="#插入节点的父节点为黑色" class="headerlink" title="插入节点的父节点为黑色"></a>插入节点的父节点为黑色</h5><p>此时红黑树性质没有被打破,不用管</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028224316039.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221028224316039">
+
+
+
+<h5 id="插入节点的父节点和叔节点都是红色"><a href="#插入节点的父节点和叔节点都是红色" class="headerlink" title="插入节点的父节点和叔节点都是红色"></a>插入节点的父节点和叔节点都是红色</h5><p>由于父节点和叔节点都是红色,所以爷爷一定是黑色</p>
+<p>BD两个红色节点连在一起了,所以将A的黑色”下放”一层</p>
+<p>即A变红,B,C变黑,这样就保证BC的路径上黑色节点数不变了</p>
+<p><img src="关于树/image-20221028224510848.png" srcset="/img/loading.gif" lazyload alt="image-20221028224510848" style="zoom: 50%;" />|<img src="关于树/image-20221028225002044.png" srcset="/img/loading.gif" lazyload alt="image-20221028225002044" style="zoom: 50%;" /></p>
+<h5 id="插入节点的父节点为红色-叔节点为黑色或没有叔叔"><a href="#插入节点的父节点为红色-叔节点为黑色或没有叔叔" class="headerlink" title="插入节点的父节点为红色,叔节点为黑色或没有叔叔"></a>插入节点的父节点为红色,叔节点为黑色或没有叔叔</h5><p>父节点为红色,爷爷一定为黑色 </p>
+<h6 id="插入节点为左孩子"><a href="#插入节点为左孩子" class="headerlink" title="插入节点为左孩子"></a>插入节点为左孩子</h6><p>以爷爷为轴右旋,这时D路径少一个黑色,所以将A的黑色上一层</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225528332.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221028225528332">
+
+
+
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225758682.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221028225758682">
+
+<h6 id="插入节点为右孩子"><a href="#插入节点为右孩子" class="headerlink" title="插入节点为右孩子"></a>插入节点为右孩子</h6><img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225324026.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221028225324026">
+
+<p>对插入节点左旋,变为上面的情况</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221028225444298.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221028225444298">
+
+
+
+
+
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p><del>写在前面~~~~的废话</del></p>
+<p><del>红黑树的删除比较复杂, 网上的教程讲的也不大致相同, 先按照我觉得自己可以理解的版本来写, 等我觉得我能完全讲清楚了再把这个重构一下</del></p>
+<p>有两个儿子的节点, 将其后继节点的内容赋值给当前节点, 并删除其后继节点</p>
+<p>对于没有儿子的节点, 只需要删除当前节点</p>
+<p>对于有一个儿子的节点, 直接删除该节点, 并用其儿子节点代替该节点</p>
+<p>对于有两个儿子的节点, 将其后继节点的内容赋值给当前节点, 并删除其后继节点</p>
+<p>由树的性质可知后继节点没有儿子或者只有一个右儿子</p>
+<p>考虑下面的例子, 需要删除8节点, 找到它的后继节点10, 并将10的值赋给8, 此时由于只改变了值而没有改变颜色, 所以树的性质不变</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195316556.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030195316556">
+
+<p>接下来考虑删除10号节点</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195537611.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030195537611">
+
+<p>此时10号节点可以等价考虑为一个只有右子树的节点</p>
+<p>考虑删除一个只有右子树节点的情况</p>
+<h3 id="自身为红色-子节点为黑色"><a href="#自身为红色-子节点为黑色" class="headerlink" title="自身为红色, 子节点为黑色"></a>自身为红色, 子节点为黑色</h3><img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030195903141.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030195903141">
+
+<p>已知删除和插入红色节点都不影响红黑树的性质, 所以直接删除即可</p>
+<h3 id="自身为黑色-子节点为红色"><a href="#自身为黑色-子节点为红色" class="headerlink" title="自身为黑色, 子节点为红色"></a>自身为黑色, 子节点为红色</h3><img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200010860.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030200010860">
+
+<p>删除自己,然后把儿子涂黑</p>
+<img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200049583.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030200049583">
+
+<h3 id="自身为黑色-儿子也为黑色"><a href="#自身为黑色-儿子也为黑色" class="headerlink" title="自身为黑色,儿子也为黑色"></a>自身为黑色,儿子也为黑色</h3><img src="/2022/09/17/%E5%85%B3%E4%BA%8E%E6%A0%91/image-20221030200254375.png" srcset="/img/loading.gif" lazyload class="" alt="image-20221030200254375">
+
+<p>这种情况比较复杂,  因为不能通过向下修改来维护树的平衡</p>
+<p>所以要向上递归修改</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p>又叫b-树, 类似于普通的平衡二叉树, 但是允许每个节点有更多的子节点</p>
+<p>b树是专门为外部存储器设计的, S</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%AB%E8%82%A1/" class="category-chain-item">八股</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="print-no-link">#数据结构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/24/%E5%85%B3%E4%BA%8E%E5%BC%95%E7%94%A8/" title="关于引用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于引用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/17/%E5%85%B3%E4%BA%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="关于面向对象">
+                        <span class="hidden-mobile">关于面向对象</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

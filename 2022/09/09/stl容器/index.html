@@ -1,0 +1,688 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vectorsize()函数返回当前vector所容纳元素的数目，即使用的空间大小 capacity()函数返回当前vector在重新进行内存分配以前所能容纳的元素数量，即返回的是总的容量大小，capacity()-size()后就是未使用的空间大小。 push元素时, 是增加size()的大小, 当size()&#x3D;&#x3D;capacity()时, 触发扩容 使用者可以通过reserv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stl容器">
+<meta property="og:url" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="vectorsize()函数返回当前vector所容纳元素的数目，即使用的空间大小 capacity()函数返回当前vector在重新进行内存分配以前所能容纳的元素数量，即返回的是总的容量大小，capacity()-size()后就是未使用的空间大小。 push元素时, 是增加size()的大小, 当size()&#x3D;&#x3D;capacity()时, 触发扩容 使用者可以通过reserv">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224090531921.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224091921907.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100456316.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100802231.png">
+<meta property="og:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100933541.png">
+<meta property="article:published_time" content="2022-09-09T06:48:49.000Z">
+<meta property="article:modified_time" content="2023-02-24T02:10:17.653Z">
+<meta property="article:author" content="liergou">
+<meta property="article:tag" content="stl">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ergou0.github.io/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224090531921.png">
+  
+  
+  
+  <title>stl容器 - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="stl容器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-09 14:48" pubdate>
+          2022年9月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">stl容器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><p>size()函数返回当前vector所容纳元素的数目，即<strong>使用的空间大小</strong></p>
+<p>capacity()函数返回当前vector在重新进行内存分配以前所<strong>能容纳的元素数量</strong>，即返回的是总的容量大小，capacity()-size()后就是未使用的空间大小。</p>
+<p>push元素时, 是增加size()的大小, 当size()&#x3D;&#x3D;capacity()时, 触发扩容</p>
+<p>使用者可以通过reserve()来改变capacity()，resize()改变size()。</p>
+<p>resize，即重置容器空间。当设置值小于当前容器空间时，会将目前容器中超出设置值的空间释放掉；当设置值大于当前容器空间时，会在当前空间的基础上增加容量。</p>
+<h3 id="vector扩容"><a href="#vector扩容" class="headerlink" title="vector扩容"></a>vector扩容</h3><p>不同编辑器扩容因子不一样, vs 为 1.5, gcc 为 2 </p>
+<p>push_back的话，一般来说，都是按两倍来扩容，因为push_back每次都是只插入一个数据</p>
+<p>insert的话，因为可以一次插入多个数据，所以要复杂一些。</p>
+<p>触发扩容时，如果要插入的数据量比旧容量小，则按两倍扩容；</p>
+<p>如果要插入的数据量比原来的旧容量还要大，会按照旧容量加要插入的数据量来扩容，保证一次扩容就能容下要插入的数据；</p>
+<p>即 new_capacity &#x3D; max ( old_capacity * 2, n + old_capacity )</p>
+<h4 id="扩容因子"><a href="#扩容因子" class="headerlink" title="扩容因子"></a>扩容因子</h4><p>从空间上来分析，扩容因子越大，意味着预留空间越大，浪费的空间也越多，所以从空间考虑，扩容因子因越小越好。</p>
+<p>从时间上来分析，如果预留空间不足的话，就需要重新开辟一段空间，把原有的数据复制到新空间，如果扩容因子无限大的话，那显然就不再需要额外开辟空间了。所以时间角度看，扩容因子越大越好</p>
+<p>不考虑一次性插入大量数据的情况,只考虑N次push_back()</p>
+<p>总消耗 &#x3D; 每次插入消耗+ 扩容消耗</p>
+<p><strong>每次插入消耗</strong></p>
+<p>显然每次常规插入操作需要1的时间，插入n个数据的常规时间为N</p>
+<p><strong>扩容消耗</strong></p>
+<p>现在考虑额外的消耗，扩容因子为K，意味着一共需要扩容$\log_kN$，为简化计算，假设是容量是从1开始，也就是要对下面的等比序列求和</p>
+<p>S &#x3D; 1 + k + $k^2$ + $k^3$ +  $k^4$  + …… +  $k^{log_kN}$&#x3D; (N-1)&#x2F;(K-1)</p>
+<p>显然，也就意味着扩容因子K越大，额外的消耗越小。总消耗为N+(N-1)&#x2F;(K-1) 。当K大于1时，K越大总消耗越小。</p>
+<p>顺便可以再求一下push_back的摊还时间复杂度。即为 (N+(N-1)&#x2F;(K-1))&#x2F;N &#x3D; (NK-1)&#x2F;(K-1)</p>
+<p>最普遍的情况下，当扩容因子为2时，最好的评价时间复杂度为2N，发生在N等于2的n次幂时，最差为3N，发生在N等于2的n次幂加1时</p>
+<h4 id="k-2与k-1-5的比较"><a href="#k-2与k-1-5的比较" class="headerlink" title="k&#x3D;2与k&#x3D;1.5的比较"></a>k&#x3D;2与k&#x3D;1.5的比较</h4><p><strong>K &#x3D; 2时</strong></p>
+<p>每次扩容后capacity的情况如下：1，2，4，8，16，32 ……..</p>
+<p>当我们释放了4的空间，我们寻找8的新空间，再次扩容，释放8，寻找16。。</p>
+<p>仔细分析，第5次扩容时，需要寻找16的新空间，第4次释放了8，第3次释放了4，第2次释放了2，第1次释放了1，所以 1 + 2 + 4 + 8 &#x3D; 15 &lt; 16，也就意味着，之前释放的空间，永远无法被下一次的扩容利用，这对内存与cache是非常不友好的。</p>
+<p><strong>K &#x3D; 1.5时</strong></p>
+<p>每次扩容之后capacity的情况为：1，2，3，4，6，9，13，19，28 ……</p>
+<p>再按刚才的思路分析一遍，1 + 2 &gt;&#x3D; 3; 3 + 4 &gt;&#x3D; 6; 6 + 9 &gt;&#x3D; 13 …….</p>
+<p>所以，当K为1.5时，显然对内存和cache要友好很多，至少从容量上来说，是存在重复利用的可能性的。</p>
+<p>因此，我们可以得出结论，当K &#x3D; 2时，时间上要比 K &#x3D; 1.5 占优，而空间上比 1.5 稍有劣势。</p>
+<p>那么，那个最佳的数是多少呢？</p>
+<p>继续刚才的分析，我们希望的是，上几次的空间，存在被下一次扩容时利用的可能性。</p>
+<p>也就是 X(n-2) + X(n-1) &gt;&#x3D; X(n)，显然我们也希望时间上也要更好，即X(n-2) + X(n-1) &#x3D; X(n)</p>
+<p>即：1，2，3，5，8，13，21，34，55 。。。。</p>
+<p>是不是很熟悉。。。是的，这就是我们的斐波那契数列。。。</p>
+<p>那么当N趋于无限大时，取极限，最佳的扩容因子也就是那个最美的数，黄金分割率，1.618</p>
+<h3 id="如何避免扩容"><a href="#如何避免扩容" class="headerlink" title="如何避免扩容"></a>如何避免扩容</h3><p>对于构造开销比较大的类, vector的频繁扩容开销会很大</p>
+<p>因为每次扩容都会重新调用构造函数</p>
+<p>所以需要使用reserve()函数为vector预留空间, 来避免使用过程中的频繁扩容</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>list是基于双向链表，内存是不连续的，不支持下标访问，支持指针访问</p>
+<h2 id="deque"><a href="#deque" class="headerlink" title="deque"></a>deque</h2><p>deque是一个double-ended queue，它具有以下两个特点：</p>
+<p>支持[]操作符，也就是支持随即存取，并且和vector的效率相差无几</p>
+<p>支持在两端的操作：push_back,push_front,pop_back,pop_front等，并且在两端操作上与list的效率也差不多</p>
+<img src="/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224090531921.png" srcset="/img/loading.gif" lazyload class="" alt="image-20230224090531921">
+
+<img src="/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224091921907.png" srcset="/img/loading.gif" lazyload class="" alt="image-20230224091921907">
+
+<img src="/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100456316.png" srcset="/img/loading.gif" lazyload class="" alt="image-20230224100456316">
+
+<h2 id="map和unordered-map"><a href="#map和unordered-map" class="headerlink" title="map和unordered_map"></a>map和unordered_map</h2><table>
+<thead>
+<tr>
+<th align="center">map</th>
+<th align="center">unordered_map</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">内部用红黑树实现，具有自动排序功能</td>
+<td align="center">内部用哈希表实现，内部元素无序杂乱</td>
+</tr>
+<tr>
+<td align="center">查询删除等操作复杂度为$o(logN)$</td>
+<td align="center">查找速度非常快（适用于大量的查询操作）</td>
+</tr>
+<tr>
+<td align="center">占用空间，红黑树里每个节点需要保存父子节点和红黑性质等信息，空间占用较大</td>
+<td align="center">建立哈希表比较耗时</td>
+</tr>
+</tbody></table>
+<p><strong>注意：</strong></p>
+<p>随着内部元素越来越多，两种容器的插入删除查询操作的时间都会逐渐变大，效率逐渐变低。</p>
+<p>使用[]查找元素时，如果元素不存在，两种容器都是创建一个空的元素；</p>
+<p>如果存在，会正常索引对应的值。</p>
+<p><strong>所以如果查询过多的不存在的元素值，容器内部会创建大量的空的键值对，后续查询创建删除效率会大大降低</strong>。</p>
+<p><strong>查询容器内部元素的最优方法是：先判断存在与否( <code>count()</code> )，再索引对应值（适用于这两种容器）</strong></p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><p>set底层也是红黑树, 它和map不同之处在于map有一个key值</p>
+<h2 id="multimap和multiset"><a href="#multimap和multiset" class="headerlink" title="multimap和multiset"></a>multimap和multiset</h2><p>可以有重复的值</p>
+<p>multiset可以使插入的元素有序</p>
+<h2 id="stack和queue"><a href="#stack和queue" class="headerlink" title="stack和queue"></a>stack和queue</h2><p>有被问到过stack的底层是啥, 没回答上来</p>
+<p>是deque捏~</p>
+<img src="/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100802231.png" srcset="/img/loading.gif" lazyload class="" alt="image-20230224100802231">
+
+<img src="/2022/09/09/stl%E5%AE%B9%E5%99%A8/image-20230224100933541.png" srcset="/img/loading.gif" lazyload class="" alt="image-20230224100933541">
+
+
+
+<p><strong>注意: stack和queue都没有迭代器</strong></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%85%AB%E8%82%A1/" class="category-chain-item">八股</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/stl/" class="print-no-link">#stl</a>
+      
+    </div>
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/09/09/%E5%85%B3%E4%BA%8E%E4%B8%80%E4%B8%AA%E7%A9%BA%E7%B1%BB%E7%9A%84%E9%97%AE%E9%A2%98/" title="关于一个空类的问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于一个空类的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/09/08/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%98-week03/" title="每日一题-week03">
+                        <span class="hidden-mobile">每日一题-week03</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

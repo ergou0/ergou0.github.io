@@ -1,0 +1,653 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="liergou">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="随机数是一个很神奇的东西,  基于随机数衍生出来很多有意思的算法 洗牌算法得到一个M以内的所有自然数的随机顺序数组 洗牌之后, 如果能够保证每一个数出现在所有位置上的概率是相等的, 那么这种算法是符合要求的 当然, 最直观的想法就是随机一个数, 如果已经取过, 则重新抽取, 否则加入数组 1这个思路有两种实现方式: 1.1每次随机 [0,M-1] 得到一个数 ​		如果该位置不为-1, 则取出并置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于随机数">
+<meta property="og:url" content="https://ergou0.github.io/2022/11/28/%E5%85%B3%E4%BA%8E%E9%9A%8F%E6%9C%BA%E6%95%B0/index.html">
+<meta property="og:site_name" content="李二狗">
+<meta property="og:description" content="随机数是一个很神奇的东西,  基于随机数衍生出来很多有意思的算法 洗牌算法得到一个M以内的所有自然数的随机顺序数组 洗牌之后, 如果能够保证每一个数出现在所有位置上的概率是相等的, 那么这种算法是符合要求的 当然, 最直观的想法就是随机一个数, 如果已经取过, 则重新抽取, 否则加入数组 1这个思路有两种实现方式: 1.1每次随机 [0,M-1] 得到一个数 ​		如果该位置不为-1, 则取出并置">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-28T02:56:57.000Z">
+<meta property="article:modified_time" content="2022-11-28T02:57:40.262Z">
+<meta property="article:author" content="liergou">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>关于随机数 - 李二狗</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"ergou0.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>李二狗</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/post.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="关于随机数"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-28 10:56" pubdate>
+          2022年11月28日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">关于随机数</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>随机数是一个很神奇的东西,  基于随机数衍生出来很多有意思的算法</p>
+<h2 id="洗牌算法"><a href="#洗牌算法" class="headerlink" title="洗牌算法"></a>洗牌算法</h2><p>得到一个M以内的所有自然数的随机顺序数组</p>
+<p>洗牌之后, 如果能够保证每一个数出现在所有位置上的概率是相等的, 那么这种算法是符合要求的</p>
+<p>当然, 最直观的想法就是随机一个数, 如果已经取过, 则重新抽取, 否则加入数组</p>
+<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>这个思路有两种实现方式:</p>
+<h4 id="1-1"><a href="#1-1" class="headerlink" title="1.1"></a>1.1</h4><p>每次随机 [0,M-1] 得到一个数</p>
+<p>​		如果该位置不为-1, 则取出并置位-1; </p>
+<p>​		否则重抽</p>
+<p>​	这种算法会导致多次抽到相同的数字, 开销很大</p>
+<p>​	</p>
+<h4 id="1-2"><a href="#1-2" class="headerlink" title="1.2"></a>1.2</h4><p>每次随机 [0,M-1] 得到一个数</p>
+<p>​	将该数取出, 并删除, M–</p>
+<p>相比于法1, 每次随机一定会得到一个结果, 但是删除的开销也很大</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>换一个思路</p>
+<p>每次随机选两张牌, 交换他们, 随机一定的次数, 得到结果</p>
+<p>如何确定这个次数来保证绝对公平? <del>我还没学会</del></p>
+<h3 id="3"><a href="#3" class="headerlink" title="3"></a>3</h3><p>Knuth-Shuffle 发明了洗牌算法</p>
+<p>众所周知, 经典的算法都是简易而高效的</p>
+<p><strong>将最后一个数和前面任意 n-1 个数中的一个数进行交换（也可以不换），然后倒数第二个数和前面任意 n-2 个数中的一个数进行交换，如此往复直到最后一个元素</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = n - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) <br>    <span class="hljs-built_in">swap</span>(arr[i], arr[<span class="hljs-built_in">rand</span>() % (i + <span class="hljs-number">1</span>)]);<br></code></pre></td></tr></table></figure>
+
+
+
+<p>算法不需要开辟额外空间, 时间复杂度为 $o(n)$ 相当完美!</p>
+<p>下面来简单论证一下这个算法的正确性</p>
+<p>需要证明洗牌算法的正确性, 需要论证两点</p>
+<ol>
+<li>一张牌出现在每个位置的概率是相等的</li>
+</ol>
+<p>​	2.一个位置出现牌的概率是相等的</p>
+<p>先来证明1</p>
+<p>对于第一张牌, 他出现在最后一个位置的概率为 $1&#x2F;n$ (第一轮抽到1号牌的概率)</p>
+<p>出现在倒数第二个位置的概率为 $(n-1)&#x2F;n * 1&#x2F;(n-1) &#x3D; 1&#x2F;n$ (第一轮没抽到1号牌且第二轮抽到1号牌)</p>
+<p>…</p>
+<p>接下来证明2</p>
+<p>对于最后一个位置, 装1的概率为 $1&#x2F;n$</p>
+<p>装2的概率为$(n-1)&#x2F;n * 1&#x2F;(n-1) &#x3D; 1&#x2F;n$</p>
+<p>…</p>
+<p>好耶</p>
+<h3 id="4"><a href="#4" class="headerlink" title="4"></a>4</h3><p>但是这种算法也有一定的局限性</p>
+<p>最明显的就是原数组顺序被打乱了</p>
+<p>当然, 要解决这个问题, 只需要另外开辟一个空间做个拷贝即可</p>
+<p>接下来是一个不可避免的问题: 假设我们不知道M的大小, 换一句话说, M是一个动态增长(只有增)的数字呢?</p>
+<p>Inside-Out Algorithm解决了这一问题</p>
+<p>从前向后扫描数据, 把位置 i 的数据随机插入到前 i 个 (包括第 i 个) 位置 (假设为k)</p>
+<p>然后把原始数据中位置 k 的数字替换新数组位置 i 的数字, 其实效果相当于新数组中位置 k 和位置 i 的数字进行交换</p>
+<h2 id="蓄水池抽样算法"><a href="#蓄水池抽样算法" class="headerlink" title="蓄水池抽样算法"></a>蓄水池抽样算法</h2><p>我更喜欢叫它抽牌算法</p>
+<p>从n个数据中随机取得m个数，n&gt;m </p>
+<p>从前往后遍历数组, 当 i &lt; m 时, 放入新数组</p>
+<p>当 i &gt;&#x3D; m 时, 随机[0, m), 设为k, 若 k &lt; m, 则将新数组中的 k 替换</p>
+<h2 id="随机数的映射"><a href="#随机数的映射" class="headerlink" title="随机数的映射"></a>随机数的映射</h2><p>简单的说, 就是给一个随机数, 要求设计某种变换得到另一个随机数</p>
+<p>假设randx可以生成 [1,x] 的随机数</p>
+<h3 id="从大范围rand中得到小范围"><a href="#从大范围rand中得到小范围" class="headerlink" title="从大范围rand中得到小范围"></a>从大范围rand中得到小范围</h3><p>这个很简单, 因为我们平时就会用, mod一下就行</p>
+<p>注意丢弃掉最后一部分数</p>
+<p>eg:<br>rand18 -&gt; rand5</p>
+<p>如果随机出来的是17或18, 则丢弃</p>
+<p>否则 (rand18)%4 + 1</p>
+<h3 id="从小范围rand中得到大范围"><a href="#从小范围rand中得到大范围" class="headerlink" title="从小范围rand中得到大范围"></a>从小范围rand中得到大范围</h3><p>这种情况稍微复杂一点</p>
+<p>那么我们先来考虑一种简单的情况</p>
+<p>现有随机数rand可以随机 [0, 9]</p>
+<p>实现0~99的随机函数</p>
+<p>很简单, 分为个, 十 两位数, 分别随机后即为答案</p>
+<p>那么, 考虑生成</p>
+<p>0~150之间的随机数呢</p>
+<p>当然我们可以生成0~999间的随机数,然后利用1中的方法得到答案</p>
+<p>接下来回到问题</p>
+<p>其实我们上述已经解决了10进制下的问题</p>
+<p>那么, 解决n进制下的问题也是一样的思路</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/01/%E5%88%9D%E5%AD%A6%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="初学设计模式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">初学设计模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/12/%E5%89%8D%E4%B8%AD%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="前中后缀表达式">
+                        <span class="hidden-mobile">前中后缀表达式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
